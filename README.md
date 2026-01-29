@@ -52,6 +52,8 @@
 ### 1. [<span style="color: #FF1493;">Plugins</span>](src/main/kotlin/concepts/learn/plugins)
 
 - Routing
+- Serialization
+- Resources
 
 ---
 
