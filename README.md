@@ -42,3 +42,42 @@
     - Search `// >` for **<span style="color: #FF1493;">Another Solution</span>**
     - Search `[//]: # (Notes)` for **<span style="color: #FF1493;">Important Notes</span>**
     - Search `[//]: # (Notes How)` for **<span style="color: #FF1493;">Notes How</span>**
+
+---
+
+## 1. [<span style="color: #FF1493;">Learn</span>](src/main/kotlin/concepts/learn)
+
+- <u style="text-decoration-color: #FF1493;">Learn Examples of Concepts</u><span style="color: #FF1493;">.</span>
+
+### 1. [<span style="color: #FF1493;">Plugins</span>](src/main/kotlin/concepts/learn/plugins)
+
+- Routing
+
+---
+
+## <span style="color: #FF1493;">Resources</span>
+
+### <span style="color: #FF1493;">Learning</span>
+
+- <span style="color: #FF1493;">Note: </span><u style="text-decoration-color: #FF1493;">After learning from the sources, what was explained in the project is explained in my ways not copied mostly</u><span style="color: #FF1493;">.</span>
+
+#### Websites
+
+<ul>
+<li><a style="color: #FF1493;" href="https://kotlinlang.org/docs/home.html">Kotlin Documentation</a></li>
+<li><a style="color: #FF1493;" href="https://ktor.io/docs">Ktor Documentation</a></li>
+<li><a style="color: #FF1493;" href="https://www.youtube.com">Youtube</a></li>
+<ul>
+<li><a style="color: #FF1493;" href="https://www.youtube.com/@akashkamati">Akash Kamati</a></li>
+</ul>
+</ul>
+
+### <span style="color: #FF1493;">Solving</span>
+
+#### Websites
+
+<ul>
+<li><a style="color: #FF1493;" href="https://coderhub.sa">CoderHub</a></li>
+<li><a style="color: #FF1493;" href="https://codeforces.com">Codeforces</a></li>
+<li><a style="color: #FF1493;" href="https://www.w3resource.com">W3Resource</a></li>
+</ul>

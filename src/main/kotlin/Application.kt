@@ -1,5 +1,6 @@
 package com.barmajaa
 
+import com.barmajaa.concepts.learn.plugins.rounting.configureRouting
 import io.ktor.server.application.*
 
 fun main(args : Array<String>) {
