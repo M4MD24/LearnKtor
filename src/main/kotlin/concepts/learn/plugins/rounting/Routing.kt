@@ -141,7 +141,7 @@ fun Route.accountRoutes() {
             call.respondText("Added Account:" + account.getAllInformation())
         }
         // PATCH /accounts/{id}
-        // Example: http://localhost:8080/accounts/142 with body: username=m4md24
+        // Example: http://localhost:8080/accounts/142 with body (x-www-from-urlencoded): username=m4md24
         patch("{id}") {
             val id = call.parameters["id"]
             val params = call.receiveParameters()
@@ -151,7 +151,7 @@ fun Route.accountRoutes() {
 
         route("auth") {
             // POST /accounts/auth/login
-            // Example: http://localhost:8080/accounts/auth/login with body: username=m4md24&password=142142
+            // Example: http://localhost:8080/accounts/auth/login with body (x-www-from-urlencoded): username=m4md24&password=142142
             post("login") {
                 val params = call.receiveParameters()
                 val username = params["username"]
@@ -159,7 +159,7 @@ fun Route.accountRoutes() {
                 call.respondText("Logged in as $username")
             }
             // POST /accounts/auth/signup
-            // Example: http://localhost:8080/accounts/auth/signup with body: username=m4md24&password=142142
+            // Example: http://localhost:8080/accounts/auth/signup with body (x-www-from-urlencoded): username=m4md24&password=142142
             post("signup") {
                 val params = call.receiveParameters()
                 val username = params["username"]
