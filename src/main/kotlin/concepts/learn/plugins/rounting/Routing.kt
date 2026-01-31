@@ -3,6 +3,7 @@ package com.barmajaa.concepts.learn.plugins.rounting
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
+import io.ktor.server.request.receiveParameters
 import io.ktor.server.resources.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -10,6 +11,8 @@ import kotlinx.serialization.Serializable
 
 fun Application.configureRouting() {
     install(RoutingRoot) {
+        // GET /
+        // Example: http://localhost:8080/
         route("/", HttpMethod.Get) {
             handle {
                 call.respondText("Hello Ktor Again!")
@@ -18,36 +21,46 @@ fun Application.configureRouting() {
     }
 
     routing {
-        get("/") {
+        // GET /
+        // Example: http://localhost:8080/
+        get {
             call.respondText("Hello Ktor!")
         }
-
+        // GET /profile/{profileID}/{skills}
+        // Example: http://localhost:8080/profile/123/kotlin,java,ktor
         get("profile/{profileID}/{skills}") {
             val profileID = call.parameters["profileID"]
             val skills = call.parameters["skills"]
             val skillList = getSkills(skills!!)
-            call.respondText("Profile ID: $profileID\nSkills:\n${skillList.joinToString("\n") { "\t- $it" }}")
+            call.respondText(
+                "Profile ID: $profileID\nSkills:\n" +
+                        skillList.joinToString("\n") { "\t- $it" }
+            )
         }
 
-        get(Regex(".+/test")) {
-            call.respondText("Test Ktor!")
-        }
+        typeSafeRoutes()
 
-        get(Regex("api/(?<apiVersion>v[1-4])")) {
-            val apiVersion = call.pathParameters["apiVersion"]
-            call.respondText("Api Version is $apiVersion")
-        }
+        dynamicRoutes()
 
-        get<Profiles> {
-            val sort = it.sort
-            call.respondText("Sort order: $sort")
-        }
+        accountRoutes()
+    }
+}
 
-        delete<Profiles.Profile> {
-            val sort = it.parent.sort
-            val profileID = it.id
-            call.respondText("Account ($profileID) has been deleted, According to the ($sort) order.")
-        }
+private fun getSkills(skills : String) = skills.split(",")
+
+fun Route.typeSafeRoutes() {
+    // GET /profiles?sort=new
+    // Example: http://localhost:8080/profiles?sort=new
+    get<Profiles> {
+        val sort = it.sort
+        call.respondText("Sort order: $sort")
+    }
+    // DELETE /profiles/{id}
+    // Example: http://localhost:8080/profiles/123
+    delete<Profiles.Profile> {
+        val sort = it.parent.sort
+        val profileID = it.id
+        call.respondText("Account ($profileID) has been deleted, According to the ($sort) order.")
     }
 }
 @Serializable
@@ -61,4 +74,98 @@ class Profiles(val sort : String? = "new") {
     )
 }
 
-private fun getSkills(skills : String) = skills.split(",")
+fun Route.dynamicRoutes() {
+    // GET /{anything}/test
+    // Example: http://localhost:8080/hello/test
+    get(Regex(".+/test")) {
+        call.respondText("Test Ktor!")
+    }
+    // GET /api/{v1|v2|v3|v4}
+    // Example: http://localhost:8080/api/v2
+    get(Regex("api/(?<apiVersion>v[1-4])")) {
+        val apiVersion = call.pathParameters["apiVersion"]
+        call.respondText("Api Version is $apiVersion")
+    }
+}
+
+data class Account(
+    val id : Int? = null,
+    val username : String? = null,
+    val password : String? = null
+) {
+    companion object {
+        fun fromCSV(
+            csv : String,
+            delimiters : String
+        ) : Account {
+            val parts = csv.split(delimiters)
+            val id = parts.getOrNull(0)?.toIntOrNull()
+            val username = parts.getOrNull(1)
+            val password = parts.getOrNull(2)
+            return Account(
+                id = id,
+                username = username,
+                password = password
+            )
+        }
+    }
+
+    fun getAllInformation() = "\n\t- ID: $id" +
+            "\n\t- Username: @$username" +
+            "\n\t- Password: $password"
+}
+
+fun Route.accountRoutes() {
+    route("accounts") {
+        // GET /accounts
+        // Example: http://localhost:8080/accounts
+        get {
+            call.respondText("Get All Accounts")
+        }
+        // GET /accounts/{id}
+        // Example: http://localhost:8080/accounts/142
+        get("{id}") {
+            val id = call.pathParameters["id"]?.toInt()
+            val account = Account(id = id)
+            call.respondText("User ID: ${account.id}")
+        }
+        // POST /accounts/{id},{username},{password}
+        // Example: http://localhost:8080/accounts/142,m4md24,142142
+        post("{data}") {
+            val data = call.pathParameters["data"]
+            val delimiters = ","
+            val account = Account.fromCSV(
+                csv = data!!,
+                delimiters = delimiters
+            )
+            call.respondText("Added Account:" + account.getAllInformation())
+        }
+        // PATCH /accounts/{id}
+        // Example: http://localhost:8080/accounts/142 with body: username=m4md24
+        patch("{id}") {
+            val id = call.parameters["id"]
+            val params = call.receiveParameters()
+            val username = params["username"]
+            call.respondText("Updated Account $id with new username: $username")
+        }
+
+        route("auth") {
+            // POST /accounts/auth/login
+            // Example: http://localhost:8080/accounts/auth/login with body: username=m4md24&password=142142
+            post("login") {
+                val params = call.receiveParameters()
+                val username = params["username"]
+                val password = params["password"]
+                call.respondText("Logged in as $username")
+            }
+            // POST /accounts/auth/signup
+            // Example: http://localhost:8080/accounts/auth/signup with body: username=m4md24&password=142142
+            post("signup") {
+                val params = call.receiveParameters()
+                val username = params["username"]
+                val password = params["password"]
+                call.respondText("Account created for $username")
+            }
+        }
+    }
+}
