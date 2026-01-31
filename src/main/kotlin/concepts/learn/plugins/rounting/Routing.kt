@@ -3,12 +3,21 @@ package com.barmajaa.concepts.learn.plugins.rounting
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.request.*
+import io.ktor.server.request.receive
+import io.ktor.server.request.receiveChannel
+import io.ktor.server.request.receiveParameters
+import io.ktor.server.request.receiveStream
+import io.ktor.server.request.receiveText
 import io.ktor.server.resources.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import io.ktor.utils.io.*
+import io.ktor.util.cio.writeChannel
+import io.ktor.utils.io.copyAndClose
+import io.ktor.utils.io.readRemaining
+import io.ktor.utils.io.readText
 import kotlinx.serialization.Serializable
+import java.io.File
+import java.io.FileOutputStream
 
 fun Application.configureRouting() {
     install(RoutingRoot) {
@@ -56,6 +65,30 @@ fun Application.configureRouting() {
             val channel = call.receiveChannel()
             val text = channel.readRemaining().readText()
             call.respondText(text)
+        }
+        post("upload") {
+            val file = File("uploads/image3.png").apply {
+                parentFile?.mkdirs()
+            }
+            // Solution 1 (image1)
+            /*
+            val byteArray = call.receive<ByteArray>()
+            file.writeBytes(byteArray)
+            */
+            // Solution 2 (image2)
+            /*
+            val stream = call.receiveStream()
+            FileOutputStream(file).use {
+                stream.copyTo(
+                    out = it,
+                    bufferSize = 16 * 1024
+                )
+            }
+            */
+            // Solution 3 (image3)
+            val channel = call.receiveChannel()
+            channel.copyAndClose(file.writeChannel())
+            call.respondText("The file was uploaded successfully.")
         }
     }
 }

@@ -372,6 +372,33 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "/upload",
+          "id": "a72d72e4-2d0d-4633-aee4-ee7bcc3e2562",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "file",
+              "file": {},
+              "options": {
+                "raw": {
+                  "language": "text"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{localhost}}/upload",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "upload"
+              ]
+            }
+          },
+          "response": []
         }
       ],
       "id": "d5d592ef-9d68-4294-a4f7-5fa7b2e7f416"
