@@ -1,0 +1,326 @@
+{
+  "info": {
+    "_postman_id": "c0e37e91-671d-4bda-97a9-8f4f0afa727f",
+    "name": "LearnKtor",
+    "description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Routes",
+      "item": [
+        {
+          "name": "TypeSafeRoutes",
+          "item": [
+            {
+              "name": "/profiles?sort=new",
+              "id": "4e117b1e-b8d9-49ec-b6f2-328fd53d4749",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/profiles?sort=all",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "profiles"
+                  ],
+                  "query": [
+                    {
+                      "key": "sort",
+                      "value": "all",
+                      "uuid": "61533b34-732d-4db5-b2f7-e386211db9a1"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "/profiles/{id}",
+              "id": "fe0b945c-195b-495c-a00a-53e151291484",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/profiles/123",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "profiles",
+                    "123"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "2befcb83-91ac-4074-81aa-efb76c337e18"
+        },
+        {
+          "name": "DynamicRoutes",
+          "item": [
+            {
+              "name": "/{anything}/test",
+              "id": "6fac63da-3e05-46e3-82b5-a9e20e43ce0b",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/hello/test",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "hello",
+                    "test"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "/api/{v1|v2|v3|v4}",
+              "id": "89001e19-c70c-4f1a-96e1-e17f2a2833bb",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/api/v4",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v4"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "70f853a9-4ca0-4d50-80ef-55b6144ff4ae"
+        },
+        {
+          "name": "Examples",
+          "item": [
+            {
+              "name": "AccountRoutes",
+              "item": [
+                {
+                  "name": "Auth",
+                  "item": [
+                    {
+                      "name": "/accounts/auth/login",
+                      "id": "de09c1ae-ff5a-40a5-9a70-7f030c8829dd",
+                      "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                          "mode": "urlencoded",
+                          "urlencoded": [
+                            {
+                              "key": "username",
+                              "value": "m4md24",
+                              "type": "text",
+                              "uuid": "7a42af33-c27a-431b-84c6-6621ed17c766"
+                            },
+                            {
+                              "key": "password",
+                              "value": "142142",
+                              "type": "text",
+                              "uuid": "af660847-02b9-4930-ba1c-608218623da7"
+                            }
+                          ]
+                        },
+                        "url": {
+                          "raw": "{{localhost}}/accounts/auth/login",
+                          "host": [
+                            "{{localhost}}"
+                          ],
+                          "path": [
+                            "accounts",
+                            "auth",
+                            "login"
+                          ]
+                        }
+                      },
+                      "response": []
+                    },
+                    {
+                      "name": "/accounts/auth/signup",
+                      "id": "3a6349be-3974-4a74-8fb0-bb82f20f0d93",
+                      "request": {
+                        "method": "POST",
+                        "header": [],
+                        "body": {
+                          "mode": "urlencoded",
+                          "urlencoded": [
+                            {
+                              "key": "username",
+                              "value": "m4md24",
+                              "type": "text",
+                              "uuid": "7a42af33-c27a-431b-84c6-6621ed17c766"
+                            },
+                            {
+                              "key": "password",
+                              "value": "142142",
+                              "type": "text",
+                              "uuid": "af660847-02b9-4930-ba1c-608218623da7"
+                            }
+                          ]
+                        },
+                        "url": {
+                          "raw": "{{localhost}}/accounts/auth/signup",
+                          "host": [
+                            "{{localhost}}"
+                          ],
+                          "path": [
+                            "accounts",
+                            "auth",
+                            "signup"
+                          ]
+                        }
+                      },
+                      "response": []
+                    }
+                  ],
+                  "id": "5a9aabf3-0df7-4816-b23f-0cf0033a4ae3"
+                },
+                {
+                  "name": "/accounts",
+                  "id": "eb03cc90-3fb0-4e57-984a-177d192e9e06",
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{localhost}}/accounts",
+                      "host": [
+                        "{{localhost}}"
+                      ],
+                      "path": [
+                        "accounts"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "/accounts/{id}",
+                  "id": "57af4353-a16c-4daa-acb6-1696f2796765",
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{localhost}}/accounts/142",
+                      "host": [
+                        "{{localhost}}"
+                      ],
+                      "path": [
+                        "accounts",
+                        "142"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "/accounts/{id},{username},{password}",
+                  "id": "b302ce44-b07c-466a-bf65-76dfd3549e04",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "url": {
+                      "raw": "{{localhost}}/accounts/142,m4md24,142142",
+                      "host": [
+                        "{{localhost}}"
+                      ],
+                      "path": [
+                        "accounts",
+                        "142,m4md24,142142"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "/accounts/{id}",
+                  "id": "367f1cf2-d615-411d-928c-10aa1de8b45a",
+                  "request": {
+                    "method": "PATCH",
+                    "header": [],
+                    "body": {
+                      "mode": "urlencoded",
+                      "urlencoded": [
+                        {
+                          "key": "username",
+                          "value": "m4md24",
+                          "type": "text",
+                          "uuid": "0a5b2fab-bb8d-46ce-b301-ae685c3b403e"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "{{localhost}}/accounts/142",
+                      "host": [
+                        "{{localhost}}"
+                      ],
+                      "path": [
+                        "accounts",
+                        "142"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "id": "95c00ef0-9e80-4cb4-9ede-1ee2c30b67b7"
+            }
+          ],
+          "id": "4da5fa28-585a-4cd7-9f2b-2bed734d6fba"
+        },
+        {
+          "name": "/",
+          "id": "b8a49c5c-f85e-4b57-9cf5-e1fbac75d0c7",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{localhost}}/",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                ""
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/profile/{profileID}/{skills}",
+          "id": "a065e035-201a-4b59-ac7c-8d0d125dbe66",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{localhost}}/profile/123/kotlin,java,ktor",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "profile",
+                "123",
+                "kotlin,java,ktor"
+              ]
+            }
+          },
+          "response": []
+        }
+      ],
+      "id": "d5d592ef-9d68-4294-a4f7-5fa7b2e7f416"
+    }
+  ]
+}
