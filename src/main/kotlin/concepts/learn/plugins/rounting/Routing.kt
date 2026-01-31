@@ -60,12 +60,14 @@ fun Application.configureRouting() {
             call.respondText("Hello $name")
         }
         // POST /channel
-        // Example: http://localhost:8080/great with body (raw (Text)): Hello Android Apps Developers
+        // Example: http://localhost:8080/channel with body (raw (Text)): Hello Android Apps Developers
         post("channel") {
             val channel = call.receiveChannel()
             val text = channel.readRemaining().readText()
             call.respondText(text)
         }
+        // POST /upload
+        // Example: http://localhost:8080/upload with body (binary): Browse Image (src\main\kotlin\concepts\learn\plugins\resources\images\image.png)
         post("upload") {
             val file = File("uploads/image3.png").apply {
                 parentFile?.mkdirs()
