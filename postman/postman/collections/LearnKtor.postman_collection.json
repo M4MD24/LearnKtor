@@ -318,6 +318,60 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "/great",
+          "id": "9bd1770b-5ed9-436d-b3aa-e4a01acc7bb9",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "Mohamed",
+              "options": {
+                "raw": {
+                  "language": "text"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{localhost}}/great",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "great"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "/channel",
+          "id": "bd33d21b-4328-4368-8ff8-b269eff4189e",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "Hello Android Apps Developers",
+              "options": {
+                "raw": {
+                  "language": "text"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{localhost}}/channel",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                "channel"
+              ]
+            }
+          },
+          "response": []
         }
       ],
       "id": "d5d592ef-9d68-4294-a4f7-5fa7b2e7f416"

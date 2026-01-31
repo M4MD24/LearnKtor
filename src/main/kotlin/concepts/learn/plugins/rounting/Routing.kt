@@ -3,10 +3,11 @@ package com.barmajaa.concepts.learn.plugins.rounting
 import io.ktor.http.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.request.receiveParameters
+import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.ktor.utils.io.*
 import kotlinx.serialization.Serializable
 
 fun Application.configureRouting() {
@@ -43,6 +44,19 @@ fun Application.configureRouting() {
         dynamicRoutes()
 
         accountRoutes()
+        // POST /great
+        // Example: http://localhost:8080/great with body (raw (Text)): Mohamed
+        post("great") {
+            val name = call.receiveText()
+            call.respondText("Hello $name")
+        }
+        // POST /channel
+        // Example: http://localhost:8080/great with body (raw (Text)): Hello Android Apps Developers
+        post("channel") {
+            val channel = call.receiveChannel()
+            val text = channel.readRemaining().readText()
+            call.respondText(text)
+        }
     }
 }
 
