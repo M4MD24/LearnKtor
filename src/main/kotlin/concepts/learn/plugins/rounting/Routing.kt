@@ -56,6 +56,27 @@ fun Application.configureRouting() {
         productRoutes()
 
         multipartData()
+
+        statusPages()
+    }
+}
+
+private fun Route.statusPages() {
+    get("products/pens") {
+        throw Exception("Database failed to initialize")
+    }
+
+    get("products/pencils") {
+        call.respond(HttpStatusCode.Unauthorized)
+    }
+
+    get("products/rulers") {
+        val statuses = listOf(
+            HttpStatusCode.BadRequest,
+            HttpStatusCode.NotFound
+        )
+        val randomStatus = statuses.random()
+        call.respond(randomStatus)
     }
 }
 

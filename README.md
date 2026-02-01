@@ -54,6 +54,7 @@
 - Routing
 - Serialization
 - Resources
+- Status Pages
 
 ---
 

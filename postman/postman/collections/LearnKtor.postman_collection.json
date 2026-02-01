@@ -431,7 +431,7 @@
           "name": "MultipartData",
           "item": [
             {
-              "name": "New Request",
+              "name": "/things",
               "id": "dc957109-8cb3-4511-abe1-cae6832ff61b",
               "request": {
                 "method": "POST",
@@ -475,6 +475,69 @@
             }
           ],
           "id": "1bc89fba-083b-4620-af12-34886bf65280"
+        },
+        {
+          "name": "StatusPages",
+          "item": [
+            {
+              "name": "/products/pens",
+              "id": "d0668a0d-af38-4377-9af8-7fe1165b4704",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/products/pens",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "products",
+                    "pens"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "/products/pencils",
+              "id": "01fb0ad6-82a5-4f1e-bfcb-c18d4a11de27",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/products/pencils",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "products",
+                    "pencils"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "/products/rulers",
+              "id": "6851aa2c-0a27-470a-94b3-4dddc5e7506f",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/products/rulers",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "products",
+                    "rulers"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "0dbb1444-69f4-4251-85a2-44d6c90ad504"
         },
         {
           "name": "/",
