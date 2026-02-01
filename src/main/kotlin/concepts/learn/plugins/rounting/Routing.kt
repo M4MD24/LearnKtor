@@ -1,10 +1,13 @@
 package com.barmajaa.concepts.learn.plugins.rounting
 
 import io.ktor.http.*
+import io.ktor.http.content.PartData
+import io.ktor.http.content.forEachPart
 import io.ktor.resources.*
 import io.ktor.server.application.*
 import io.ktor.server.request.receive
 import io.ktor.server.request.receiveChannel
+import io.ktor.server.request.receiveMultipart
 import io.ktor.server.request.receiveNullable
 import io.ktor.server.request.receiveParameters
 import io.ktor.server.request.receiveStream
@@ -51,6 +54,40 @@ fun Application.configureRouting() {
         uploadRoutes()
 
         productRoutes()
+
+        multipartData()
+    }
+}
+
+private fun Route.multipartData() {
+    // POST /things
+    // Example: http://localhost:8080/product with body (form-data): name=Mohamed&Logo=Select Image (src\main\kotlin\concepts\learn\plugins\resources\images\image.png)&job=Android Apps Developer
+    post("things") {
+        val things = call.receiveMultipart(
+            formFieldLimit = 1024 * 1024 * 60
+        )
+        val fields = mutableMapOf<String, MutableList<String>>()
+        things.forEachPart { thing ->
+            val key = thing.name ?: return@forEachPart
+            when (thing) {
+                is PartData.FormItem -> {
+                    fields.getOrPut(key) { mutableListOf() }.add(thing.value)
+                }
+
+                is PartData.FileItem -> {
+                    val fileName = thing.originalFileName ?: return@forEachPart
+                    fields.getOrPut(key) { mutableListOf() }.add(fileName)
+                    val file = File("uploads/things/$fileName").apply {
+                        parentFile?.mkdirs()
+                    }
+                    thing.provider().copyAndClose(file.writeChannel())
+                }
+
+                else                 -> {}
+            }
+            thing.dispose
+        }
+        call.respond("Form fields: $fields")
     }
 }
 @Serializable

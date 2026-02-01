@@ -428,6 +428,55 @@
           "id": "11f256de-6972-44ff-a127-44055033074e"
         },
         {
+          "name": "MultipartData",
+          "item": [
+            {
+              "name": "New Request",
+              "id": "dc957109-8cb3-4511-abe1-cae6832ff61b",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "name",
+                      "value": "Mohamed",
+                      "type": "text",
+                      "uuid": "9b239cf9-4dc0-4a73-bff2-40b7d593e517"
+                    },
+                    {
+                      "key": "logo",
+                      "type": "file",
+                      "uuid": "326c411d-ea7c-4f68-8cc0-996aebef0e7b",
+                      "src": [
+                        "postman-cloud:///1f0fe687-6568-4180-8036-32d5fceef156"
+                      ]
+                    },
+                    {
+                      "key": "job",
+                      "value": "Android Apps Developer",
+                      "type": "text",
+                      "uuid": "def934f8-0267-4bb6-a4b8-eb156f8ca6f4"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{localhost}}/things",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "things"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "1bc89fba-083b-4620-af12-34886bf65280"
+        },
+        {
           "name": "/",
           "id": "b8a49c5c-f85e-4b57-9cf5-e1fbac75d0c7",
           "request": {
