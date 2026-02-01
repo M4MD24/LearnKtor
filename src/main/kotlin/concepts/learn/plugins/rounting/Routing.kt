@@ -5,6 +5,7 @@ import io.ktor.resources.*
 import io.ktor.server.application.*
 import io.ktor.server.request.receive
 import io.ktor.server.request.receiveChannel
+import io.ktor.server.request.receiveNullable
 import io.ktor.server.request.receiveParameters
 import io.ktor.server.request.receiveStream
 import io.ktor.server.request.receiveText
@@ -36,66 +37,98 @@ fun Application.configureRouting() {
         get {
             call.respondText("Hello Ktor!")
         }
-        // GET /profile/{profileID}/{skills}
-        // Example: http://localhost:8080/profile/123/kotlin,java,ktor
-        get("profile/{profileID}/{skills}") {
-            val profileID = call.parameters["profileID"]
-            val skills = call.parameters["skills"]
-            val skillList = getSkills(skills!!)
-            call.respondText(
-                "Profile ID: $profileID\nSkills:\n" +
-                        skillList.joinToString("\n") { "\t- $it" }
-            )
-        }
+
+        profileRoutes()
 
         typeSafeRoutes()
 
         dynamicRoutes()
 
         accountRoutes()
-        // POST /great
-        // Example: http://localhost:8080/great with body (raw (Text)): Mohamed
-        post("great") {
-            val name = call.receiveText()
-            call.respondText("Hello $name")
+
+        messageRoutes()
+
+        uploadRoutes()
+
+        productRoutes()
+    }
+}
+@Serializable
+private data class Product(
+    val name : String,
+    val category : String,
+    val price : Float,
+)
+
+private fun Route.productRoutes() {
+    // POST /product
+    // Example: http://localhost:8080/product with body (binary): Select Image (src\main\kotlin\concepts\learn\plugins\resources\images\image.png)
+    post("product") {
+        val product = call.receiveNullable<Product>() ?: return@post /* call.respond(HttpStatusCode.BadRequest)*/
+        call.respond(product)
+    }
+}
+
+private fun Route.uploadRoutes() {
+    // POST /upload
+    // Example: http://localhost:8080/upload with body (binary): Select Image (src\main\kotlin\concepts\learn\plugins\resources\images\image.png)
+    post("upload") {
+        val file = File("uploads/image3.png").apply {
+            parentFile?.mkdirs()
         }
-        // POST /channel
-        // Example: http://localhost:8080/channel with body (raw (Text)): Hello Android Apps Developers
-        post("channel") {
-            val channel = call.receiveChannel()
-            val text = channel.readRemaining().readText()
-            call.respondText(text)
+        // Solution 1 (image1)
+        /*
+        val byteArray = call.receive<ByteArray>()
+        file.writeBytes(byteArray)
+        */
+        // Solution 2 (image2)
+        /*
+        val stream = call.receiveStream()
+        FileOutputStream(file).use {
+            stream.copyTo(
+                out = it,
+                bufferSize = 16 * 1024
+            )
         }
-        // POST /upload
-        // Example: http://localhost:8080/upload with body (binary): Browse Image (src\main\kotlin\concepts\learn\plugins\resources\images\image.png)
-        post("upload") {
-            val file = File("uploads/image3.png").apply {
-                parentFile?.mkdirs()
-            }
-            // Solution 1 (image1)
-            /*
-            val byteArray = call.receive<ByteArray>()
-            file.writeBytes(byteArray)
-            */
-            // Solution 2 (image2)
-            /*
-            val stream = call.receiveStream()
-            FileOutputStream(file).use {
-                stream.copyTo(
-                    out = it,
-                    bufferSize = 16 * 1024
-                )
-            }
-            */
-            // Solution 3 (image3)
-            val channel = call.receiveChannel()
-            channel.copyAndClose(file.writeChannel())
-            call.respondText("The file was uploaded successfully.")
-        }
+        */
+        // Solution 3 (image3)
+        val channel = call.receiveChannel()
+        channel.copyAndClose(file.writeChannel())
+        call.respondText("The file was uploaded successfully.")
+    }
+}
+
+private fun Route.messageRoutes() {
+    // POST /great
+    // Example: http://localhost:8080/great with body (raw (Text)): Mohamed
+    post("great") {
+        val name = call.receiveText()
+        call.respondText("Hello $name")
+    }
+    // POST /channel
+    // Example: http://localhost:8080/channel with body (raw (Text)): Hello Android Apps Developers
+    post("channel") {
+        val channel = call.receiveChannel()
+        val text = channel.readRemaining().readText()
+        call.respondText(text)
     }
 }
 
 private fun getSkills(skills : String) = skills.split(",")
+
+private fun Route.profileRoutes() {
+    // GET /profile/{profileID}/{skills}
+    // Example: http://localhost:8080/profile/123/kotlin,java,ktor
+    get("profile/{profileID}/{skills}") {
+        val profileID = call.parameters["profileID"]
+        val skills = call.parameters["skills"]
+        val skillList = getSkills(skills!!)
+        call.respondText(
+            "Profile ID: $profileID\nSkills:\n" +
+                    skillList.joinToString("\n") { "\t- $it" }
+        )
+    }
+}
 
 fun Route.typeSafeRoutes() {
     // GET /profiles?sort=new
