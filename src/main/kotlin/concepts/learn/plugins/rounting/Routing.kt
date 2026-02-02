@@ -61,15 +61,19 @@ fun Application.configureRouting() {
     }
 }
 
-private fun Route.statusPages() {
+private fun Route.errorHandling() {
+    // GET /products/pens
+    // Example: http://localhost:8080/products/pens
     get("products/pens") {
         throw Exception("Database failed to initialize")
     }
-
+    // GET /products/pens
+    // Example: http://localhost:8080/products/pencils
     get("products/pencils") {
         call.respond(HttpStatusCode.Unauthorized)
     }
-
+    // GET /products/rulers
+    // Example: http://localhost:8080/products/rulers
     get("products/rulers") {
         val statuses = listOf(
             HttpStatusCode.BadRequest,
@@ -80,9 +84,26 @@ private fun Route.statusPages() {
     }
 }
 
+private fun Route.validation() {
+    // POST /products/pens
+    // Example: http://localhost:8080/products/pencils with body (raw (Text)): ""
+    // Example: http://localhost:8080/products/pencils with body (raw (Text)): " "
+    // Example: http://localhost:8080/products/pencils with body (raw (Text)): "Hello"
+    post("products/pens") {
+        val message = call.receive<String>()
+        call.respondText(message)
+    }
+}
+
+private fun Route.statusPages() {
+    errorHandling()
+
+    validation()
+}
+
 private fun Route.multipartData() {
     // POST /things
-    // Example: http://localhost:8080/product with body (form-data): name=Mohamed&Logo=Select Image (src\main\kotlin\concepts\learn\plugins\resources\images\image.png)&job=Android Apps Developer
+    // Example: http://localhost:8080/things with body (form-data): name=Mohamed&Logo=Select Image (src\main\kotlin\concepts\learn\plugins\resources\images\image.png)&job=Android Apps Developer
     post("things") {
         val things = call.receiveMultipart(
             formFieldLimit = 1024 * 1024 * 60

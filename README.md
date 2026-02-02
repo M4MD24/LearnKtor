@@ -55,6 +55,8 @@
 - Serialization
 - Resources
 - Status Pages
+    - Error Handling
+- Request Validation
 
 ---
 
