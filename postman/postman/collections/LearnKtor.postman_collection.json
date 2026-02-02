@@ -541,43 +541,71 @@
                 }
               ],
               "id": "b74016bd-1f3b-4acd-b341-6e8b97e19bcb"
-            },
-            {
-              "name": "Validation",
-              "item": [
-                {
-                  "name": "/products/pens",
-                  "id": "9b24a97d-b3d7-44e1-8579-31516a810aee",
-                  "request": {
-                    "method": "POST",
-                    "header": [],
-                    "body": {
-                      "mode": "raw",
-                      "raw": "",
-                      "options": {
-                        "raw": {
-                          "language": "text"
-                        }
-                      }
-                    },
-                    "url": {
-                      "raw": "{{localhost}}/products/pens",
-                      "host": [
-                        "{{localhost}}"
-                      ],
-                      "path": [
-                        "products",
-                        "pens"
-                      ]
-                    }
-                  },
-                  "response": []
-                }
-              ],
-              "id": "897c899e-4332-4508-a3a6-ed68883c170b"
             }
           ],
           "id": "0dbb1444-69f4-4251-85a2-44d6c90ad504"
+        },
+        {
+          "name": "RequestValidation",
+          "item": [
+            {
+              "name": "/products/pens",
+              "id": "9b24a97d-b3d7-44e1-8579-31516a810aee",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "text"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{localhost}}/products/pens",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "products",
+                    "pens"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "/products/things",
+              "id": "75e9757a-31f4-48f1-9945-f6f0594e7b48",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"Asus Laptop\",\r\n    \"category\": \"Electronics\",\r\n    \"price\": -1\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{localhost}}/products/things",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "products",
+                    "things"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "897c899e-4332-4508-a3a6-ed68883c170b"
         },
         {
           "name": "/",

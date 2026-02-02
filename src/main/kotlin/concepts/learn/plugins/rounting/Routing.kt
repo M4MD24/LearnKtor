@@ -10,7 +10,6 @@ import io.ktor.server.request.receiveChannel
 import io.ktor.server.request.receiveMultipart
 import io.ktor.server.request.receiveNullable
 import io.ktor.server.request.receiveParameters
-import io.ktor.server.request.receiveStream
 import io.ktor.server.request.receiveText
 import io.ktor.server.resources.*
 import io.ktor.server.response.*
@@ -21,7 +20,6 @@ import io.ktor.utils.io.readRemaining
 import io.ktor.utils.io.readText
 import kotlinx.serialization.Serializable
 import java.io.File
-import java.io.FileOutputStream
 
 fun Application.configureRouting() {
     install(RoutingRoot) {
@@ -58,6 +56,8 @@ fun Application.configureRouting() {
         multipartData()
 
         statusPages()
+
+        requestValidation()
     }
 }
 
@@ -83,8 +83,14 @@ private fun Route.errorHandling() {
         call.respond(randomStatus)
     }
 }
+@Serializable
+data class Thing(
+    val name : String,
+    val category : String,
+    val price : Float
+)
 
-private fun Route.validation() {
+private fun Route.requestValidation() {
     // POST /products/pens
     // Example: http://localhost:8080/products/pencils with body (raw (Text)): ""
     // Example: http://localhost:8080/products/pencils with body (raw (Text)): " "
@@ -93,12 +99,19 @@ private fun Route.validation() {
         val message = call.receive<String>()
         call.respondText(message)
     }
+    // POST products/things
+    // Example: http://localhost:8080/products/things with body (raw (JSON)): {"name":"","category": " ","price": -1}
+    // Example: http://localhost:8080/products/things with body (raw (JSON)): {"name":"Asus Laptop","category": " ","price": -1}
+    // Example: http://localhost:8080/products/things with body (raw (JSON)): {"name":"Asus Laptop","category": "Electronics","price": -1}
+    // Example: http://localhost:8080/products/things with body (raw (JSON)): {"name":"Asus Laptop","category": "Electronics","price": 999.99}
+    post("products/things") {
+        val thing = call.receive<Thing>()
+        call.respond(thing)
+    }
 }
 
 private fun Route.statusPages() {
     errorHandling()
-
-    validation()
 }
 
 private fun Route.multipartData() {
@@ -209,7 +222,7 @@ private fun Route.profileRoutes() {
     }
 }
 
-fun Route.typeSafeRoutes() {
+private fun Route.typeSafeRoutes() {
     // GET /profiles?sort=new
     // Example: http://localhost:8080/profiles?sort=new
     get<Profiles> {
@@ -226,7 +239,7 @@ fun Route.typeSafeRoutes() {
 }
 @Serializable
 @Resource("profiles")
-class Profiles(val sort : String? = "new") {
+private class Profiles(val sort : String? = "new") {
     @Serializable
     @Resource("{id}")
     data class Profile(
@@ -235,7 +248,7 @@ class Profiles(val sort : String? = "new") {
     )
 }
 
-fun Route.dynamicRoutes() {
+private fun Route.dynamicRoutes() {
     // GET /{anything}/test
     // Example: http://localhost:8080/hello/test
     get(Regex(".+/test")) {
@@ -249,7 +262,7 @@ fun Route.dynamicRoutes() {
     }
 }
 
-data class Account(
+private data class Account(
     val id : Int? = null,
     val username : String? = null,
     val password : String? = null
@@ -276,7 +289,7 @@ data class Account(
             "\n\t- Password: $password"
 }
 
-fun Route.accountRoutes() {
+private fun Route.accountRoutes() {
     route("accounts") {
         // GET /accounts
         // Example: http://localhost:8080/accounts
