@@ -45,11 +45,11 @@
 
 ---
 
-## 1. [<span style="color: #FF1493;">Learn</span>](src/main/kotlin/concepts/learn)
+## 1. [<span style="color: #FF1493;">Learn</span>](src/main/kotlin/com/barmajaa/concepts/learn)
 
 - <u style="text-decoration-color: #FF1493;">Learn Examples of Concepts</u><span style="color: #FF1493;">.</span>
 
-### 1. [<span style="color: #FF1493;">Plugins</span>](src/main/kotlin/concepts/learn/plugins)
+### 1. [<span style="color: #FF1493;">Plugins</span>](src/main/kotlin/com/barmajaa/concepts/learn/plugins)
 
 - Routing
 - Serialization
@@ -57,6 +57,7 @@
 - Status Pages
     - Error Handling
 - Request Validation
+- Rate Limit
 
 ---
 
@@ -75,14 +76,4 @@
 <ul>
 <li><a style="color: #FF1493;" href="https://www.youtube.com/@akashkamati">Akash Kamati</a></li>
 </ul>
-</ul>
-
-### <span style="color: #FF1493;">Solving</span>
-
-#### Websites
-
-<ul>
-<li><a style="color: #FF1493;" href="https://coderhub.sa">CoderHub</a></li>
-<li><a style="color: #FF1493;" href="https://codeforces.com">Codeforces</a></li>
-<li><a style="color: #FF1493;" href="https://www.w3resource.com">W3Resource</a></li>
 </ul>

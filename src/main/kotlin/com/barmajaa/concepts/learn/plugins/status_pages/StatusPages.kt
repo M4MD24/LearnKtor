@@ -7,6 +7,11 @@ import io.ktor.server.response.*
 
 fun Application.configureStatusPages() {
     install(StatusPages) {
+        status(HttpStatusCode.TooManyRequests) { call, cause ->
+            val retryAfter = call.response.headers["Retry-After"]
+            call.respondText(text = "$cause, Wait $retryAfter second")
+        }
+
         exception<Throwable> { call, cause ->
             call.respondText(
                 text = "500: $cause",

@@ -1,25 +1,22 @@
 package com.barmajaa.concepts.learn.plugins.rounting
 
+import com.barmajaa.concepts.learn.plugins.rate_limit.PRIVATE_LIMIT
+import com.barmajaa.concepts.learn.plugins.rate_limit.PROTECTED_LIMIT
+import com.barmajaa.concepts.learn.plugins.rate_limit.REQUEST_WEIGHT
 import io.ktor.http.*
-import io.ktor.http.content.PartData
-import io.ktor.http.content.forEachPart
+import io.ktor.http.content.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.request.receive
-import io.ktor.server.request.receiveChannel
-import io.ktor.server.request.receiveMultipart
-import io.ktor.server.request.receiveNullable
-import io.ktor.server.request.receiveParameters
-import io.ktor.server.request.receiveText
+import io.ktor.server.plugins.ratelimit.*
+import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import io.ktor.util.cio.writeChannel
-import io.ktor.utils.io.copyAndClose
-import io.ktor.utils.io.readRemaining
-import io.ktor.utils.io.readText
+import io.ktor.util.cio.*
+import io.ktor.utils.io.*
 import kotlinx.serialization.Serializable
 import java.io.File
+import java.util.concurrent.atomic.AtomicInteger
 
 fun Application.configureRouting() {
     install(RoutingRoot) {
@@ -58,6 +55,55 @@ fun Application.configureRouting() {
         statusPages()
 
         requestValidation()
+
+        rateLimit()
+    }
+}
+
+private fun decrementWithLimit(
+    counter : AtomicInteger,
+    limit : Int,
+    requestWeight : Int = 1
+) = counter.updateAndGet {
+    if (it <= 0)
+        limit
+    else
+        it - requestWeight
+}
+
+private fun ApplicationCall.rateLimitInfo(
+    remaining : String = response.headers["X-RateLimit-Remaining"] ?: "?",
+    limit : String = response.headers["X-RateLimit-Limit"] ?: "?"
+) = "$remaining/$limit"
+
+val startPrivateCount = AtomicInteger(PRIVATE_LIMIT)
+val startProtectedCount = AtomicInteger(PROTECTED_LIMIT)
+private fun Route.rateLimit() {
+    val targetPeople = "Android App Developers"
+    val welcomeMessage = "Hello $targetPeople"
+    // POST /global
+    // Example: http://localhost:8080/global
+    post("global") {
+        call.respondText(welcomeMessage + " (${call.rateLimitInfo()})")
+    }
+
+    rateLimit(RateLimitName("private")) {
+        // POST /private
+        // Example: http://localhost:8080/private
+        post("private") {
+            val currentCount = decrementWithLimit(startPrivateCount, PRIVATE_LIMIT)
+            call.respondText(welcomeMessage + " (${call.rateLimitInfo(currentCount.toString(), PRIVATE_LIMIT.toString())})")
+        }
+    }
+
+    rateLimit(RateLimitName("protected")) {
+        // POST /protected
+        // Example: http://localhost:8080/protected
+        // Example: http://localhost:8080/protected?type=admin
+        post("protected") {
+            val currentCount = decrementWithLimit(startProtectedCount, PROTECTED_LIMIT, REQUEST_WEIGHT)
+            call.respondText(welcomeMessage + " (${call.rateLimitInfo(currentCount.toString(), PROTECTED_LIMIT.toString())})")
+        }
     }
 }
 
@@ -116,7 +162,7 @@ private fun Route.statusPages() {
 
 private fun Route.multipartData() {
     // POST /things
-    // Example: http://localhost:8080/things with body (form-data): name=Mohamed&Logo=Select Image (src\main\kotlin\concepts\learn\plugins\resources\images\image.png)&job=Android Apps Developer
+    // Example: http://localhost:8080/things with body (form-data): name=Mohamed&Logo=Select Image (src\main\kotlin\com\barmajaa\concepts\learn\plugins\resources\images\image.png)&job=Android Apps Developer
     post("things") {
         val things = call.receiveMultipart(
             formFieldLimit = 1024 * 1024 * 60
@@ -154,7 +200,7 @@ private data class Product(
 
 private fun Route.productRoutes() {
     // POST /product
-    // Example: http://localhost:8080/product with body (binary): Select Image (src\main\kotlin\concepts\learn\plugins\resources\images\image.png)
+    // Example: http://localhost:8080/product with body (binary): Select Image (src\main\kotlin\com\barmajaa\concepts\learn\plugins\resources\images\image.png)
     post("product") {
         val product = call.receiveNullable<Product>() ?: return@post /* call.respond(HttpStatusCode.BadRequest)*/
         call.respond(product)
@@ -163,7 +209,7 @@ private fun Route.productRoutes() {
 
 private fun Route.uploadRoutes() {
     // POST /upload
-    // Example: http://localhost:8080/upload with body (binary): Select Image (src\main\kotlin\concepts\learn\plugins\resources\images\image.png)
+    // Example: http://localhost:8080/upload with body (binary): Select Image (src\main\kotlin\com\barmajaa\concepts\learn\plugins\resources\images\image.png)
     post("upload") {
         val file = File("uploads/image3.png").apply {
             parentFile?.mkdirs()

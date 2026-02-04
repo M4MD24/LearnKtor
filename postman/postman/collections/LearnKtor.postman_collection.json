@@ -608,6 +608,104 @@
           "id": "897c899e-4332-4508-a3a6-ed68883c170b"
         },
         {
+          "name": "RateLimit",
+          "item": [
+            {
+              "name": "Protected",
+              "item": [
+                {
+                  "name": "/protected",
+                  "id": "46c456e2-824f-441e-86e7-dafd33ca5109",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "url": {
+                      "raw": "{{localhost}}/protected?type=admin",
+                      "host": [
+                        "{{localhost}}"
+                      ],
+                      "path": [
+                        "protected"
+                      ],
+                      "query": [
+                        {
+                          "key": "type",
+                          "value": "admin",
+                          "uuid": "b05f65b5-56b2-438a-bbb0-8b1b227c6e62"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "/protected?type=admin",
+                  "id": "f12a341b-30ae-43e3-82e0-45372890496c",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "url": {
+                      "raw": "{{localhost}}/protected?type=admin",
+                      "host": [
+                        "{{localhost}}"
+                      ],
+                      "path": [
+                        "protected"
+                      ],
+                      "query": [
+                        {
+                          "key": "type",
+                          "value": "admin",
+                          "uuid": "b05f65b5-56b2-438a-bbb0-8b1b227c6e62"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ],
+              "id": "77f30703-9cfb-44d3-8ffe-38a6ed06c12a"
+            },
+            {
+              "name": "/global",
+              "id": "8c4bc624-8ac0-4e15-a9e0-63848c6c81b9",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/global",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "global"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "/private",
+              "id": "d84bb89b-1f3e-4aa1-b950-2d63eb3f54dd",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/private",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "private"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "7626845d-5794-4083-a4d0-6c4e1eb2224b"
+        },
+        {
           "name": "/",
           "id": "b8a49c5c-f85e-4b57-9cf5-e1fbac75d0c7",
           "request": {

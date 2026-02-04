@@ -1,5 +1,6 @@
 package com.barmajaa
 
+import com.barmajaa.concepts.learn.plugins.rate_limit.configureRateLimiting
 import com.barmajaa.concepts.learn.plugins.request_validation.configureRequestValidation
 import com.barmajaa.concepts.learn.plugins.resources.configureResources
 import com.barmajaa.concepts.learn.plugins.rounting.configureRouting
@@ -15,5 +16,6 @@ fun Application.module() {
     configureSerialization()
     configureStatusPages()
     configureRequestValidation()
+    configureRateLimiting()
     configureRouting()
 }
