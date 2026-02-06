@@ -7,6 +7,7 @@ import io.ktor.http.*
 import io.ktor.http.content.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
+import io.ktor.server.http.content.*
 import io.ktor.server.plugins.ratelimit.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
@@ -16,7 +17,9 @@ import io.ktor.util.cio.*
 import io.ktor.utils.io.*
 import kotlinx.serialization.Serializable
 import java.io.File
+import java.nio.file.Path
 import java.util.concurrent.atomic.AtomicInteger
+import kotlin.io.path.exists
 
 fun Application.configureRouting() {
     install(RoutingRoot) {
@@ -57,6 +60,75 @@ fun Application.configureRouting() {
         requestValidation()
 
         rateLimit()
+
+        sendingResponse()
+    }
+}
+@Serializable
+private data class ThingResponse(
+    val message : String,
+    val things : List<Thing>
+)
+
+private fun Route.sendingResponse() {
+    // GET /sending_response
+    // Example: http://localhost:8080/sending_response
+    get("sending_response") {
+        call.respondText(
+            text = "Hello",
+            contentType = ContentType.Text.Plain,
+            status = HttpStatusCode.OK
+        )
+    }
+    // GET /products/things
+    // Example: http://localhost:8080/products/things
+    get("products/things") {
+        val thingResponse = ThingResponse(
+            "Successfully fetched things",
+            List(10) { index ->
+                val updatedIndex = index + 1
+                Thing(
+                    name = "Name $updatedIndex",
+                    category = "Thing",
+                    price = updatedIndex + 10.0F
+                )
+            }
+        )
+        call.respond(thingResponse)
+    }
+    // GET /stream{fileName}
+    // Example: http://localhost:8080/stream?fileName=video.mp4
+    get("stream") {
+        val fileName = call.request.queryParameters["fileName"] ?: ""
+        val file = File("src/main/resources/videos/$fileName")
+        if (!file.exists())
+            return@get call.respond(HttpStatusCode.NotFound)
+        call.respondFile(file)
+    }
+    // GET /download{fileName}
+    // Example: http://localhost:8080/download?fileName=video.mp4 (In Browser)
+    get("download") {
+        val fileName = call.request.queryParameters["fileName"] ?: ""
+        val file = File("src/main/resources/videos/$fileName")
+        if (!file.exists())
+            return@get call.respond(HttpStatusCode.NotFound)
+        call.response.header(
+            HttpHeaders.ContentDisposition,
+            ContentDisposition.Attachment.withParameter(
+                ContentDisposition.Parameters.FileName,
+                fileName
+            ).toString()
+        )
+        call.respondFile(file)
+    }
+    // GET /fileFromPath{fileName}
+    // Example: http://localhost:8080/fileFromPath?fileName=video.mp4
+    get("fileFromPath") {
+        val fileName = call.request.queryParameters["fileName"] ?: ""
+        val filePath = Path.of("src/main/resources/videos/$fileName")
+        if (!filePath.exists())
+            return@get call.respond(HttpStatusCode.NotFound)
+        call.respond(LocalPathContent(filePath))
     }
 }
 
@@ -145,12 +217,12 @@ private fun Route.requestValidation() {
         val message = call.receive<String>()
         call.respondText(message)
     }
-    // POST products/things
-    // Example: http://localhost:8080/products/things with body (raw (JSON)): {"name":"","category": " ","price": -1}
-    // Example: http://localhost:8080/products/things with body (raw (JSON)): {"name":"Asus Laptop","category": " ","price": -1}
-    // Example: http://localhost:8080/products/things with body (raw (JSON)): {"name":"Asus Laptop","category": "Electronics","price": -1}
-    // Example: http://localhost:8080/products/things with body (raw (JSON)): {"name":"Asus Laptop","category": "Electronics","price": 999.99}
-    post("products/things") {
+    // POST products/thing
+    // Example: http://localhost:8080/products/thing with body (raw (JSON)): {"name":"","category": " ","price": -1}
+    // Example: http://localhost:8080/products/thing with body (raw (JSON)): {"name":"Asus Laptop","category": " ","price": -1}
+    // Example: http://localhost:8080/products/thing with body (raw (JSON)): {"name":"Asus Laptop","category": "Electronics","price": -1}
+    // Example: http://localhost:8080/products/thing with body (raw (JSON)): {"name":"Asus Laptop","category": "Electronics","price": 999.99}
+    post("products/thing") {
         val thing = call.receive<Thing>()
         call.respond(thing)
     }

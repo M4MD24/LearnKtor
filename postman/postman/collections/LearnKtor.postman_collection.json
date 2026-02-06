@@ -706,6 +706,124 @@
           "id": "7626845d-5794-4083-a4d0-6c4e1eb2224b"
         },
         {
+          "name": "SendingResponse",
+          "item": [
+            {
+              "name": "/sending_response",
+              "id": "5ec3c33b-4239-4812-88c8-00d9a7d11624",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/sending_response",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "sending_response"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "/products/thing",
+              "id": "adf26193-28fc-459d-8af8-c0aa7a183660",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/products/things",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "products",
+                    "things"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "/stream{fileName}",
+              "id": "e49ae1b5-4ce2-419c-a308-80007615064d",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/stream?fileName=video.mp4",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "stream"
+                  ],
+                  "query": [
+                    {
+                      "key": "fileName",
+                      "value": "video.mp4",
+                      "uuid": "fb0b7809-6984-431f-9f8e-e5487bea8611"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "/download{fileName}",
+              "id": "60676fba-bbcf-4274-958a-9684ccae5c00",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/download?fileName=video.mp4",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "download"
+                  ],
+                  "query": [
+                    {
+                      "key": "fileName",
+                      "value": "video.mp4",
+                      "uuid": "fb0b7809-6984-431f-9f8e-e5487bea8611"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "/fileFromPath{fileName}",
+              "id": "a2b35747-63b9-4d81-a20d-80e5a10d4d81",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/fileFromPath?fileName=video.mp4",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "fileFromPath"
+                  ],
+                  "query": [
+                    {
+                      "key": "fileName",
+                      "value": "video.mp4",
+                      "uuid": "fb0b7809-6984-431f-9f8e-e5487bea8611"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "e464028c-af88-41a3-87c3-1f670912e2cb"
+        },
+        {
           "name": "/",
           "id": "b8a49c5c-f85e-4b57-9cf5-e1fbac75d0c7",
           "request": {
