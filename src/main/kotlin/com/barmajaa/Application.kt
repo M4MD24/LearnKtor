@@ -1,5 +1,7 @@
 package com.barmajaa
 
+import com.barmajaa.concepts.learn.plugins.auto_head_response.configureAutoHeadResponse
+import com.barmajaa.concepts.learn.plugins.partial_content.configurePartialContent
 import com.barmajaa.concepts.learn.plugins.rate_limit.configureRateLimiting
 import com.barmajaa.concepts.learn.plugins.request_validation.configureRequestValidation
 import com.barmajaa.concepts.learn.plugins.resources.configureResources
@@ -17,5 +19,7 @@ fun Application.module() {
     configureStatusPages()
     configureRequestValidation()
     configureRateLimiting()
+    configureAutoHeadResponse()
+    configurePartialContent()
     configureRouting()
 }

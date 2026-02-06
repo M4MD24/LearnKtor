@@ -62,6 +62,83 @@ fun Application.configureRouting() {
         rateLimit()
 
         sendingResponse()
+
+        statusRoutes()
+
+        headersRoutes()
+
+        cookiesRoutes()
+
+        redirectRoutes()
+    }
+}
+
+private fun Route.redirectRoutes() {
+    // GET /redirect
+    // Example: http://localhost:8080/redirect
+    get("redirect") {
+        call.respondRedirect(
+            "moved",
+            permanent = true
+        )
+    }
+    // GET /moved
+    // Example: http://localhost:8080/moved
+    get("moved") {
+        call.respond(HttpStatusCode.OK, "Redirect to moved route")
+    }
+}
+
+private fun Route.cookiesRoutes() {
+    // GET /cookies
+    // Example: http://localhost:8080/cookies
+    get("cookies") {
+        call.response.cookies.append(
+            "CookieName1",
+            "CookieValue1"
+        )
+        call.response.cookies.append(
+            "CookieName2",
+            "CookieValue2"
+        )
+
+        call.respond(HttpStatusCode.OK)
+    }
+}
+
+private fun Route.headersRoutes() {
+    // GET /headers
+    // Example: http://localhost:8080/headers
+    get("headers") {
+        call.response.headers.append(
+            HttpHeaders.ETag,
+            "First"
+        )
+        call.response.header(
+            HttpHeaders.ETag,
+            "Second"
+        )
+        call.response.etag("Third")
+
+        call.response.header(
+            "CustomHeaderName",
+            "CustomHeaderValue"
+        )
+
+        call.respond(HttpStatusCode.OK)
+    }
+}
+
+private fun Route.statusRoutes() {
+    // GET /status
+    // Example: http://localhost:8080/status
+    get("status") {
+        call.response.status(HttpStatusCode.OK)
+    }
+    // GET /custom_status
+    // Example: http://localhost:8080/custom_status
+    get("custom_status") {
+        call.response.status(HttpStatusCode(666, "Custom Status"))
     }
 }
 @Serializable

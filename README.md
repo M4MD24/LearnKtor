@@ -58,6 +58,8 @@
     - Error Handling
 - Request Validation
 - Rate Limit
+- Auto Head Response
+- Partial Content
 
 ---
 

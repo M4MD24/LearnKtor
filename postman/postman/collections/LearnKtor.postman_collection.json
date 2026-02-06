@@ -824,6 +824,120 @@
           "id": "e464028c-af88-41a3-87c3-1f670912e2cb"
         },
         {
+          "name": "AutoHeadResponse",
+          "item": [
+            {
+              "name": "/status",
+              "id": "0fc087f4-2168-4522-a6d0-54a7bef24200",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/status",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "status"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "/custom_status",
+              "id": "60f1caa1-db50-4c85-a777-638eb8b5d565",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/custom_status",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "custom_status"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "/headers",
+              "id": "80272f98-ff4a-4794-bd6f-6fdd937b0973",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/headers",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "headers"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "/cookies",
+              "id": "1fcc2c8c-1e60-4815-834f-89563c4b8cbc",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/cookies",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "cookies"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "/redirect",
+              "id": "272b83ce-ec33-4fb5-aa42-2e6fa66f53fd",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/redirect",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "redirect"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "/moved",
+              "id": "16087c90-475b-43c8-8f13-3c2099b0489c",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/moved",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "moved"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ],
+          "id": "985da2b1-b47e-4e26-b1f3-2dc760f90bc8"
+        },
+        {
           "name": "/",
           "id": "b8a49c5c-f85e-4b57-9cf5-e1fbac75d0c7",
           "request": {
