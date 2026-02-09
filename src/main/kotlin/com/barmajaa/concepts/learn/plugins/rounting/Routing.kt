@@ -18,6 +18,7 @@ import io.ktor.utils.io.*
 import kotlinx.serialization.Serializable
 import java.io.File
 import java.nio.file.Path
+import java.nio.file.Paths
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.io.path.exists
 
@@ -70,6 +71,65 @@ fun Application.configureRouting() {
         cookiesRoutes()
 
         redirectRoutes()
+
+        staticRoutes()
+    }
+}
+
+object Immutable : CacheControl(null) {
+    override fun toString() = "Immutable"
+}
+
+private fun Route.staticRoutes() {
+    // GET /static/index
+    // Example: http://localhost:8080/static/index
+    // Example: http://localhost:8080/static/index2
+    staticResources("static", "static") {
+        extensions("html")
+    }
+    // GET /uploads/{pathFile}
+    // Example: http://localhost:8080/uploads/images/image.png
+    staticFiles("uploads", File("src/main/resources")) {
+        // Example: http://localhost:8080/uploads/videos/video.mp4
+        exclude {
+            it.path.contains("video")
+        }
+        // Example: http://localhost:8080/uploads/texts/index.txt
+        // Example: http://localhost:8080/uploads/texts/text.txt
+        contentType { file ->
+            when (file.name) {
+                "index.txt" -> ContentType.Text.Html
+                else        -> null
+            }
+        }
+        // Example: http://localhost:8080/uploads/texts/index.txt
+        // Example: http://localhost:8080/uploads/texts/text.txt
+        cacheControl { file ->
+            when (file.name) {
+                "index.txt" -> listOf(
+                    Immutable,
+                    CacheControl.MaxAge(10000)
+                )
+
+                else        -> emptyList()
+            }
+        }
+        // Example: http://localhost:8080/uploads/texts/text.txt
+        modify { file, call ->
+            call.response.header("FileName", file.name)
+        }
+    }
+    // GET /uploads/{pathFile}
+    // Example: http://localhost:8080/zip/text.txt
+    // Example: http://localhost:8080/zip/image.txt
+    // Example: http://localhost:8080/zip/index.html
+    staticZip(
+        remotePath = "zip",
+        basePath = "",
+        zip = Paths.get("src/main/resources/zips/file.zip")
+    )
+    singlePageApplication {
+        // react("react-app-path") // Example: src/main/kotlin/reactApp
     }
 }
 
