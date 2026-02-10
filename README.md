@@ -60,6 +60,13 @@
 - Rate Limit
 - Auto Head Response
 - Partial Content
+- Authentication
+    - Basic
+    - ~~Digest~~
+    - ~~Bearer~~
+    - ~~Session~~
+    - ~~JWT~~
+    - ~~Google OAuth~~
 
 ---
 

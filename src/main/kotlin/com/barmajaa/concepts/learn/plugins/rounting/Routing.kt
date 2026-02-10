@@ -7,6 +7,9 @@ import io.ktor.http.*
 import io.ktor.http.content.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
+import io.ktor.server.auth.UserIdPrincipal
+import io.ktor.server.auth.authenticate
+import io.ktor.server.auth.principal
 import io.ktor.server.http.content.*
 import io.ktor.server.plugins.ratelimit.*
 import io.ktor.server.request.*
@@ -73,6 +76,22 @@ fun Application.configureRouting() {
         redirectRoutes()
 
         staticRoutes()
+
+        authenticationRoutes()
+    }
+}
+
+private fun Route.authenticationRoutes() {
+    // GET /basic_authentication
+    // Example: http://localhost:8080/basic_authentication with authorization: username="admin"&password="password"
+    // Example: http://localhost:8080/basic_authentication with authorization: username="user"&password="12345678"
+    authenticate("basic-authentication") {
+        get("basic_authentication") {
+            val principal = call.principal<UserIdPrincipal>()
+                ?: return@get call.respond(HttpStatusCode.Unauthorized)
+
+            call.respondText("Hello ${principal.name}!")
+        }
     }
 }
 

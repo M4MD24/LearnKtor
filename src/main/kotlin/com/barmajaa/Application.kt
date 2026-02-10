@@ -1,5 +1,6 @@
 package com.barmajaa
 
+import com.barmajaa.concepts.learn.plugins.authentication.basic_authentication.configureBasicAuthentication
 import com.barmajaa.concepts.learn.plugins.auto_head_response.configureAutoHeadResponse
 import com.barmajaa.concepts.learn.plugins.partial_content.configurePartialContent
 import com.barmajaa.concepts.learn.plugins.rate_limit.configureRateLimiting
@@ -21,5 +22,10 @@ fun Application.module() {
     configureRateLimiting()
     configureAutoHeadResponse()
     configurePartialContent()
+    configureAuthentications()
     configureRouting()
+}
+
+private fun Application.configureAuthentications(){
+    configureBasicAuthentication()
 }
