@@ -62,7 +62,7 @@
 - Partial Content
 - Authentication
     - Basic
-    - ~~Digest~~
+    - Digest
     - ~~Bearer~~
     - ~~Session~~
     - ~~JWT~~
