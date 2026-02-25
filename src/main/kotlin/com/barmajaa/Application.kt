@@ -1,8 +1,7 @@
 package com.barmajaa
 
-import com.barmajaa.concepts.learn.plugins.authentication.basic_authentication.configureBasicAuthentication
-import com.barmajaa.concepts.learn.plugins.authentication.bearer_authentication.configureBearerAuthentication
-import com.barmajaa.concepts.learn.plugins.authentication.digest_authentication.configureDigestAuthentication
+import com.barmajaa.concepts.learn.plugins.authentication.sessions_authentication.configureSessions
+import com.barmajaa.concepts.learn.plugins.authentication.sessions_authentication.configureSessionsAuthentication
 import com.barmajaa.concepts.learn.plugins.auto_head_response.configureAutoHeadResponse
 import com.barmajaa.concepts.learn.plugins.partial_content.configurePartialContent
 import com.barmajaa.concepts.learn.plugins.rate_limit.configureRateLimiting
@@ -31,5 +30,11 @@ fun Application.module() {
 private fun Application.configureAuthentications() {
 //    configureBasicAuthentication()
 //    configureDigestAuthentication()
-    configureBearerAuthentication()
+//    configureBearerAuthentication()
+    sessionAuthentication()
+}
+
+private fun Application.sessionAuthentication() {
+    configureSessions()
+    configureSessionsAuthentication()
 }

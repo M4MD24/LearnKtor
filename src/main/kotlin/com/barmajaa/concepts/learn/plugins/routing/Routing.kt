@@ -1,5 +1,6 @@
 package com.barmajaa.concepts.learn.plugins.routing
 
+import com.barmajaa.concepts.learn.plugins.authentication.sessions_authentication.UserSession
 import com.barmajaa.concepts.learn.plugins.rate_limit.PRIVATE_LIMIT
 import com.barmajaa.concepts.learn.plugins.rate_limit.PROTECTED_LIMIT
 import com.barmajaa.concepts.learn.plugins.rate_limit.REQUEST_WEIGHT
@@ -16,6 +17,9 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.ktor.server.sessions.clear
+import io.ktor.server.sessions.sessions
+import io.ktor.server.sessions.set
 import io.ktor.util.cio.*
 import io.ktor.utils.io.*
 import kotlinx.serialization.Serializable
@@ -111,16 +115,68 @@ private fun Route.authenticationRoutes() {
     }
     */
 
-    // GET /digest_authentication
+    // GET /bearer_authentication
     // Example: http://localhost:8080/bearer_authentication with authorization (Bearer Token): Token="token1"
     // Bearer Authentication
+    /*
     authenticate("bearer-authentication") {
         get("bearer_authentication") {
             val username = call.principal<UserIdPrincipal>()?.name
             call.respondText("Hello $username")
         }
     }
+    */
+    // GET /sessions_authentication
+    // Example: http://localhost:8080/sessions_authentication with body (raw (JSON)): "{ "username": "admin", "password": "12345678" }"
+    // POST /sessions_authentication/login
+    // Example: http://localhost:8080/sessions_authentication/login with body (raw (JSON)): "{ "username": "admin", "password": "12345678" }"
+    // POST /sessions_authentication/signup
+    // Example: http://localhost:8080/sessions_authentication/signup with body (raw (JSON)): "{ "username": "admin", "password": "12345678" }"
+    // POST /sessions_authentication/logout
+    // Example: http://localhost:8080/sessions_authentication/logout with body (raw (JSON)): "{ "username": "admin", "password": "12345678" }"
+    // Sessions Authentication
+
+    val userDatabase = mutableMapOf<String, String>()
+    route("sessions_authentication") {
+        post("signup") {
+            val requestData = call.receive<AuthRequest>()
+            if (userDatabase.containsKey(requestData.username))
+                call.respondText("User already exists")
+            else {
+                userDatabase[requestData.username] = requestData.password
+                call.sessions.set(UserSession(requestData.username))
+                call.respondText("User signup success")
+            }
+        }
+        post("login") {
+            val requestData = call.receive<AuthRequest>()
+            val storedPassword = userDatabase[requestData.username] ?: return@post call.respondText("User doesn't exists")
+
+            if (storedPassword == requestData.password) {
+                call.sessions.set(UserSession(requestData.username))
+                call.respondText("User login success")
+            } else
+                call.respondText("Invalid credentials")
+
+        }
+        post("logout") {
+            call.sessions.clear<UserSession>()
+            call.respondText("Logout success")
+        }
+    }
+    authenticate("sessions-authentication") {
+        get("sessions_authentication") {
+            val username = call.principal<UserSession>()?.username
+            call.respondText("Hello $username")
+        }
+    }
 }
+
+@Serializable
+data class AuthRequest(
+    val username: String,
+    val password: String
+)
 
 object Immutable : CacheControl(null) {
     override fun toString() = "Immutable"

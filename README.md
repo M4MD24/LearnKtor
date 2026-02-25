@@ -64,7 +64,7 @@
     - Basic
     - Digest
     - Bearer
-    - ~~Session~~
+    - Session
     - ~~JWT~~
     - ~~Google OAuth~~
 
