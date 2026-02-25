@@ -85,7 +85,8 @@ private fun Route.authenticationRoutes() {
     // GET /basic_authentication
     // Example: http://localhost:8080/basic_authentication with authorization (Basic Auth): username="admin"&password="password"
     // Example: http://localhost:8080/basic_authentication with authorization (Digest Auth): username="user"&password="12345678"
-    /* Basic Authentication
+    // Basic Authentication
+    /*
     authenticate("basic-authentication") {
         get("basic_authentication") {
             val principal = call.principal<UserIdPrincipal>()
@@ -98,7 +99,8 @@ private fun Route.authenticationRoutes() {
 
     // GET /digest_authentication
     // Example: http://localhost:8080/digest_authentication with authorization (Digest Auth): username="user"&password="12345678"&Realm="Access protected routes"&Nonce="33da332f0aebf1c0"&Algorithm="MD5"
-    /* Digest Authentication
+    // Digest Authentication
+    /*
     authenticate("digest-authentication") {
         get("digest_authentication") {
             val principal = call.principal<UserIdPrincipal>()
@@ -109,6 +111,9 @@ private fun Route.authenticationRoutes() {
     }
     */
 
+    // GET /digest_authentication
+    // Example: http://localhost:8080/bearer_authentication with authorization (Bearer Token): Token="token1"
+    // Bearer Authentication
     authenticate("bearer-authentication") {
         get("bearer_authentication") {
             val username = call.principal<UserIdPrincipal>()?.name
@@ -122,14 +127,14 @@ object Immutable : CacheControl(null) {
 }
 
 private fun Route.staticRoutes() {
-    // GET /static/index
-    // Example: http://localhost:8080/static/index
-    // Example: http://localhost:8080/static/index2
+// GET /static/index
+// Example: http://localhost:8080/static/index
+// Example: http://localhost:8080/static/index2
     staticResources("static", "static") {
         extensions("html")
     }
-    // GET /uploads/{pathFile}
-    // Example: http://localhost:8080/uploads/images/image.png
+// GET /uploads/{pathFile}
+// Example: http://localhost:8080/uploads/images/image.png
     staticFiles("uploads", File("src/main/resources")) {
         // Example: http://localhost:8080/uploads/videos/video.mp4
         exclude {
@@ -160,10 +165,10 @@ private fun Route.staticRoutes() {
             call.response.header("FileName", file.name)
         }
     }
-    // GET /uploads/{pathFile}
-    // Example: http://localhost:8080/zip/text.txt
-    // Example: http://localhost:8080/zip/image.txt
-    // Example: http://localhost:8080/zip/index.html
+// GET /uploads/{pathFile}
+// Example: http://localhost:8080/zip/text.txt
+// Example: http://localhost:8080/zip/image.txt
+// Example: http://localhost:8080/zip/index.html
     staticZip(
         remotePath = "zip",
         basePath = "",
@@ -175,24 +180,24 @@ private fun Route.staticRoutes() {
 }
 
 private fun Route.redirectRoutes() {
-    // GET /redirect
-    // Example: http://localhost:8080/redirect
+// GET /redirect
+// Example: http://localhost:8080/redirect
     get("redirect") {
         call.respondRedirect(
             "moved",
             permanent = true
         )
     }
-    // GET /moved
-    // Example: http://localhost:8080/moved
+// GET /moved
+// Example: http://localhost:8080/moved
     get("moved") {
         call.respond(HttpStatusCode.OK, "Redirect to moved route")
     }
 }
 
 private fun Route.cookiesRoutes() {
-    // GET /cookies
-    // Example: http://localhost:8080/cookies
+// GET /cookies
+// Example: http://localhost:8080/cookies
     get("cookies") {
         call.response.cookies.append(
             "CookieName1",
@@ -208,8 +213,8 @@ private fun Route.cookiesRoutes() {
 }
 
 private fun Route.headersRoutes() {
-    // GET /headers
-    // Example: http://localhost:8080/headers
+// GET /headers
+// Example: http://localhost:8080/headers
     get("headers") {
         call.response.headers.append(
             HttpHeaders.ETag,
@@ -231,13 +236,13 @@ private fun Route.headersRoutes() {
 }
 
 private fun Route.statusRoutes() {
-    // GET /status
-    // Example: http://localhost:8080/status
+// GET /status
+// Example: http://localhost:8080/status
     get("status") {
         call.response.status(HttpStatusCode.OK)
     }
-    // GET /custom_status
-    // Example: http://localhost:8080/custom_status
+// GET /custom_status
+// Example: http://localhost:8080/custom_status
     get("custom_status") {
         call.response.status(HttpStatusCode(666, "Custom Status"))
     }
@@ -250,8 +255,8 @@ private data class ThingResponse(
 )
 
 private fun Route.sendingResponse() {
-    // GET /sending_response
-    // Example: http://localhost:8080/sending_response
+// GET /sending_response
+// Example: http://localhost:8080/sending_response
     get("sending_response") {
         call.respondText(
             text = "Hello",
@@ -259,8 +264,8 @@ private fun Route.sendingResponse() {
             status = HttpStatusCode.OK
         )
     }
-    // GET /products/things
-    // Example: http://localhost:8080/products/things
+// GET /products/things
+// Example: http://localhost:8080/products/things
     get("products/things") {
         val thingResponse = ThingResponse(
             "Successfully fetched things",
@@ -275,8 +280,8 @@ private fun Route.sendingResponse() {
         )
         call.respond(thingResponse)
     }
-    // GET /stream{fileName}
-    // Example: http://localhost:8080/stream?fileName=video.mp4
+// GET /stream{fileName}
+// Example: http://localhost:8080/stream?fileName=video.mp4
     get("stream") {
         val fileName = call.request.queryParameters["fileName"] ?: ""
         val file = File("src/main/resources/videos/$fileName")
@@ -284,8 +289,8 @@ private fun Route.sendingResponse() {
             return@get call.respond(HttpStatusCode.NotFound)
         call.respondFile(file)
     }
-    // GET /download{fileName}
-    // Example: http://localhost:8080/download?fileName=video.mp4 (In Browser)
+// GET /download{fileName}
+// Example: http://localhost:8080/download?fileName=video.mp4 (In Browser)
     get("download") {
         val fileName = call.request.queryParameters["fileName"] ?: ""
         val file = File("src/main/resources/videos/$fileName")
@@ -300,8 +305,8 @@ private fun Route.sendingResponse() {
         )
         call.respondFile(file)
     }
-    // GET /fileFromPath{fileName}
-    // Example: http://localhost:8080/fileFromPath?fileName=video.mp4
+// GET /fileFromPath{fileName}
+// Example: http://localhost:8080/fileFromPath?fileName=video.mp4
     get("fileFromPath") {
         val fileName = call.request.queryParameters["fileName"] ?: ""
         val filePath = Path.of("src/main/resources/videos/$fileName")
@@ -332,8 +337,8 @@ val startProtectedCount = AtomicInteger(PROTECTED_LIMIT)
 private fun Route.rateLimit() {
     val targetPeople = "Android App Developers"
     val welcomeMessage = "Hello $targetPeople"
-    // POST /global
-    // Example: http://localhost:8080/global
+// POST /global
+// Example: http://localhost:8080/global
     post("global") {
         call.respondText(welcomeMessage + " (${call.rateLimitInfo()})")
     }
@@ -373,18 +378,18 @@ private fun Route.rateLimit() {
 }
 
 private fun Route.errorHandling() {
-    // GET /products/pens
-    // Example: http://localhost:8080/products/pens
+// GET /products/pens
+// Example: http://localhost:8080/products/pens
     get("products/pens") {
         throw Exception("Database failed to initialize")
     }
-    // GET /products/pens
-    // Example: http://localhost:8080/products/pencils
+// GET /products/pens
+// Example: http://localhost:8080/products/pencils
     get("products/pencils") {
         call.respond(HttpStatusCode.Unauthorized)
     }
-    // GET /products/rulers
-    // Example: http://localhost:8080/products/rulers
+// GET /products/rulers
+// Example: http://localhost:8080/products/rulers
     get("products/rulers") {
         val statuses = listOf(
             HttpStatusCode.BadRequest,
@@ -403,19 +408,19 @@ data class Thing(
 )
 
 private fun Route.requestValidation() {
-    // POST /products/pens
-    // Example: http://localhost:8080/products/pencils with body (raw (Text)): ""
-    // Example: http://localhost:8080/products/pencils with body (raw (Text)): " "
-    // Example: http://localhost:8080/products/pencils with body (raw (Text)): "Hello"
+// POST /products/pens
+// Example: http://localhost:8080/products/pencils with body (raw (Text)): ""
+// Example: http://localhost:8080/products/pencils with body (raw (Text)): " "
+// Example: http://localhost:8080/products/pencils with body (raw (Text)): "Hello"
     post("products/pens") {
         val message = call.receive<String>()
         call.respondText(message)
     }
-    // POST products/thing
-    // Example: http://localhost:8080/products/thing with body (raw (JSON)): {"name":"","category": " ","price": -1}
-    // Example: http://localhost:8080/products/thing with body (raw (JSON)): {"name":"Asus Laptop","category": " ","price": -1}
-    // Example: http://localhost:8080/products/thing with body (raw (JSON)): {"name":"Asus Laptop","category": "Electronics","price": -1}
-    // Example: http://localhost:8080/products/thing with body (raw (JSON)): {"name":"Asus Laptop","category": "Electronics","price": 999.99}
+// POST products/thing
+// Example: http://localhost:8080/products/thing with body (raw (JSON)): {"name":"","category": " ","price": -1}
+// Example: http://localhost:8080/products/thing with body (raw (JSON)): {"name":"Asus Laptop","category": " ","price": -1}
+// Example: http://localhost:8080/products/thing with body (raw (JSON)): {"name":"Asus Laptop","category": "Electronics","price": -1}
+// Example: http://localhost:8080/products/thing with body (raw (JSON)): {"name":"Asus Laptop","category": "Electronics","price": 999.99}
     post("products/thing") {
         val thing = call.receive<Thing>()
         call.respond(thing)
@@ -427,8 +432,8 @@ private fun Route.statusPages() {
 }
 
 private fun Route.multipartData() {
-    // POST /things
-    // Example: http://localhost:8080/things with body (form-data): name=Mohamed&Logo=Select Image (src\main\kotlin\com\barmajaa\concepts\learn\plugins\resources\images\image.png)&job=Android Apps Developer
+// POST /things
+// Example: http://localhost:8080/things with body (form-data): name=Mohamed&Logo=Select Image (src\main\kotlin\com\barmajaa\concepts\learn\plugins\resources\images\image.png)&job=Android Apps Developer
     post("things") {
         val things = call.receiveMultipart(
             formFieldLimit = 1024 * 1024 * 60
@@ -466,8 +471,8 @@ private data class Product(
 )
 
 private fun Route.productRoutes() {
-    // POST /product
-    // Example: http://localhost:8080/product with body (binary): Select Image (src\main\kotlin\com\barmajaa\concepts\learn\plugins\resources\images\image.png)
+// POST /product
+// Example: http://localhost:8080/product with body (binary): Select Image (src\main\kotlin\com\barmajaa\concepts\learn\plugins\resources\images\image.png)
     post("product") {
         val product = call.receiveNullable<Product>() ?: return@post /* call.respond(HttpStatusCode.BadRequest)*/
         call.respond(product)
@@ -475,8 +480,8 @@ private fun Route.productRoutes() {
 }
 
 private fun Route.uploadRoutes() {
-    // POST /upload
-    // Example: http://localhost:8080/upload with body (binary): Select Image (src\main\kotlin\com\barmajaa\concepts\learn\plugins\resources\images\image.png)
+// POST /upload
+// Example: http://localhost:8080/upload with body (binary): Select Image (src\main\kotlin\com\barmajaa\concepts\learn\plugins\resources\images\image.png)
     post("upload") {
         val file = File("uploads/image3.png").apply {
             parentFile?.mkdirs()
@@ -504,14 +509,14 @@ private fun Route.uploadRoutes() {
 }
 
 private fun Route.messageRoutes() {
-    // POST /great
-    // Example: http://localhost:8080/great with body (raw (Text)): Mohamed
+// POST /great
+// Example: http://localhost:8080/great with body (raw (Text)): Mohamed
     post("great") {
         val name = call.receiveText()
         call.respondText("Hello $name")
     }
-    // POST /channel
-    // Example: http://localhost:8080/channel with body (raw (Text)): Hello Android Apps Developers
+// POST /channel
+// Example: http://localhost:8080/channel with body (raw (Text)): Hello Android Apps Developers
     post("channel") {
         val channel = call.receiveChannel()
         val text = channel.readRemaining().readText()
@@ -522,8 +527,8 @@ private fun Route.messageRoutes() {
 private fun getSkills(skills: String) = skills.split(",")
 
 private fun Route.profileRoutes() {
-    // GET /profile/{profileID}/{skills}
-    // Example: http://localhost:8080/profile/123/kotlin,java,ktor
+// GET /profile/{profileID}/{skills}
+// Example: http://localhost:8080/profile/123/kotlin,java,ktor
     get("profile/{profileID}/{skills}") {
         val profileID = call.parameters["profileID"]
         val skills = call.parameters["skills"]
@@ -536,14 +541,14 @@ private fun Route.profileRoutes() {
 }
 
 private fun Route.typeSafeRoutes() {
-    // GET /profiles?sort=new
-    // Example: http://localhost:8080/profiles?sort=new
+// GET /profiles?sort=new
+// Example: http://localhost:8080/profiles?sort=new
     get<Profiles> {
         val sort = it.sort
         call.respondText("Sort order: $sort")
     }
-    // DELETE /profiles/{id}
-    // Example: http://localhost:8080/profiles/123
+// DELETE /profiles/{id}
+// Example: http://localhost:8080/profiles/123
     delete<Profiles.Profile> {
         val sort = it.parent.sort
         val profileID = it.id
@@ -563,13 +568,13 @@ private class Profiles(val sort: String? = "new") {
 }
 
 private fun Route.dynamicRoutes() {
-    // GET /{anything}/test
-    // Example: http://localhost:8080/hello/test
+// GET /{anything}/test
+// Example: http://localhost:8080/hello/test
     get(Regex(".+/test")) {
         call.respondText("Test Ktor!")
     }
-    // GET /api/{v1|v2|v3|v4}
-    // Example: http://localhost:8080/api/v2
+// GET /api/{v1|v2|v3|v4}
+// Example: http://localhost:8080/api/v2
     get(Regex("api/(?<apiVersion>v[1-4])")) {
         val apiVersion = call.pathParameters["apiVersion"]
         call.respondText("Api Version is $apiVersion")

@@ -63,7 +63,7 @@
 - Authentication
     - Basic
     - Digest
-    - ~~Bearer~~
+    - Bearer
     - ~~Session~~
     - ~~JWT~~
     - ~~Google OAuth~~
