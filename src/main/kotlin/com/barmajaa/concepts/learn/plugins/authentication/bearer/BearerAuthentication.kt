@@ -1,4 +1,4 @@
-package com.barmajaa.concepts.learn.plugins.authentication.bearer_authentication
+package com.barmajaa.concepts.learn.plugins.authentication.bearer
 
 import io.ktor.server.application.*
 import io.ktor.server.auth.*

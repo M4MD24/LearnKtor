@@ -1,6 +1,5 @@
 package com.barmajaa.concepts.learn.plugins.routing
 
-import com.barmajaa.concepts.learn.plugins.authentication.sessions_authentication.UserSession
 import com.barmajaa.concepts.learn.plugins.rate_limit.PRIVATE_LIMIT
 import com.barmajaa.concepts.learn.plugins.rate_limit.PROTECTED_LIMIT
 import com.barmajaa.concepts.learn.plugins.rate_limit.REQUEST_WEIGHT
@@ -8,18 +7,12 @@ import io.ktor.http.*
 import io.ktor.http.content.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
-import io.ktor.server.auth.UserIdPrincipal
-import io.ktor.server.auth.authenticate
-import io.ktor.server.auth.principal
 import io.ktor.server.http.content.*
 import io.ktor.server.plugins.ratelimit.*
 import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import io.ktor.server.sessions.clear
-import io.ktor.server.sessions.sessions
-import io.ktor.server.sessions.set
 import io.ktor.util.cio.*
 import io.ktor.utils.io.*
 import kotlinx.serialization.Serializable
@@ -126,6 +119,7 @@ private fun Route.authenticationRoutes() {
         }
     }
     */
+
     // GET /sessions_authentication
     // Example: http://localhost:8080/sessions_authentication with body (raw (JSON)): "{ "username": "admin", "password": "12345678" }"
     // POST /sessions_authentication/login
@@ -135,7 +129,7 @@ private fun Route.authenticationRoutes() {
     // POST /sessions_authentication/logout
     // Example: http://localhost:8080/sessions_authentication/logout with body (raw (JSON)): "{ "username": "admin", "password": "12345678" }"
     // Sessions Authentication
-
+    /*
     val userDatabase = mutableMapOf<String, String>()
     route("sessions_authentication") {
         post("signup") {
@@ -170,6 +164,7 @@ private fun Route.authenticationRoutes() {
             call.respondText("Hello $username")
         }
     }
+    */
 }
 
 @Serializable

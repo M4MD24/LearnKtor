@@ -1,4 +1,4 @@
-package com.barmajaa.concepts.learn.plugins.authentication.digest_authentication
+package com.barmajaa.concepts.learn.plugins.authentication.digest
 
 import io.ktor.server.application.*
 import io.ktor.server.auth.*

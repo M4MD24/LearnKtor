@@ -1,4 +1,4 @@
-package com.barmajaa.concepts.learn.plugins.authentication.basic_authentication
+package com.barmajaa.concepts.learn.plugins.authentication.basic
 
 import io.ktor.server.application.Application
 import io.ktor.server.application.install

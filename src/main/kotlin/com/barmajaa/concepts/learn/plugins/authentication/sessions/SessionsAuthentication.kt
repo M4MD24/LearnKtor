@@ -1,4 +1,4 @@
-package com.barmajaa.concepts.learn.plugins.authentication.sessions_authentication
+package com.barmajaa.concepts.learn.plugins.authentication.sessions
 
 import io.ktor.http.*
 import io.ktor.server.application.*
