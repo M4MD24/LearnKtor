@@ -7,13 +7,13 @@ import com.barmajaa.concepts.learn.plugins.partial_content.configurePartialConte
 import com.barmajaa.concepts.learn.plugins.rate_limit.configureRateLimiting
 import com.barmajaa.concepts.learn.plugins.request_validation.configureRequestValidation
 import com.barmajaa.concepts.learn.plugins.resources.configureResources
-import com.barmajaa.concepts.learn.plugins.rounting.configureRouting
+import com.barmajaa.concepts.learn.plugins.routing.configureRouting
 import com.barmajaa.concepts.learn.plugins.serialization.configureSerialization
 import com.barmajaa.concepts.learn.plugins.status_pages.configureStatusPages
-import io.ktor.server.netty.EngineMain.main
 import io.ktor.server.application.*
+import io.ktor.server.netty.EngineMain.main
 
-fun main(args : Array<String>) = main(args)
+fun main(args: Array<String>) = main(args)
 
 fun Application.module() {
     configureResources()

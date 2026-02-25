@@ -1,4 +1,4 @@
-package com.barmajaa.concepts.learn.plugins.rounting
+package com.barmajaa.concepts.learn.plugins.routing
 
 import com.barmajaa.concepts.learn.plugins.rate_limit.PRIVATE_LIMIT
 import com.barmajaa.concepts.learn.plugins.rate_limit.PROTECTED_LIMIT
@@ -96,12 +96,23 @@ private fun Route.authenticationRoutes() {
     }
     */
 
+    // GET /digest_authentication
+    // Example: http://localhost:8080/digest_authentication with authorization (Digest Auth): username="user"&password="12345678"&Realm="Access protected routes"&Nonce="33da332f0aebf1c0"&Algorithm="MD5"
+    /* Digest Authentication
     authenticate("digest-authentication") {
         get("digest_authentication") {
             val principal = call.principal<UserIdPrincipal>()
                 ?: return@get call.respond(HttpStatusCode.Unauthorized)
 
             call.respondText("Hello ${principal.name}!")
+        }
+    }
+    */
+
+    authenticate("bearer-authentication") {
+        get("bearer_authentication") {
+            val username = call.principal<UserIdPrincipal>()?.name
+            call.respondText("Hello $username")
         }
     }
 }
@@ -129,7 +140,7 @@ private fun Route.staticRoutes() {
         contentType { file ->
             when (file.name) {
                 "index.txt" -> ContentType.Text.Html
-                else        -> null
+                else -> null
             }
         }
         // Example: http://localhost:8080/uploads/texts/index.txt
@@ -141,7 +152,7 @@ private fun Route.staticRoutes() {
                     CacheControl.MaxAge(10000)
                 )
 
-                else        -> emptyList()
+                else -> emptyList()
             }
         }
         // Example: http://localhost:8080/uploads/texts/text.txt
@@ -231,10 +242,11 @@ private fun Route.statusRoutes() {
         call.response.status(HttpStatusCode(666, "Custom Status"))
     }
 }
+
 @Serializable
 private data class ThingResponse(
-    val message : String,
-    val things : List<Thing>
+    val message: String,
+    val things: List<Thing>
 )
 
 private fun Route.sendingResponse() {
@@ -300,9 +312,9 @@ private fun Route.sendingResponse() {
 }
 
 private fun decrementWithLimit(
-    counter : AtomicInteger,
-    limit : Int,
-    requestWeight : Int = 1
+    counter: AtomicInteger,
+    limit: Int,
+    requestWeight: Int = 1
 ) = counter.updateAndGet {
     if (it <= 0)
         limit
@@ -311,8 +323,8 @@ private fun decrementWithLimit(
 }
 
 private fun ApplicationCall.rateLimitInfo(
-    remaining : String = response.headers["X-RateLimit-Remaining"] ?: "?",
-    limit : String = response.headers["X-RateLimit-Limit"] ?: "?"
+    remaining: String = response.headers["X-RateLimit-Remaining"] ?: "?",
+    limit: String = response.headers["X-RateLimit-Limit"] ?: "?"
 ) = "$remaining/$limit"
 
 val startPrivateCount = AtomicInteger(PRIVATE_LIMIT)
@@ -331,7 +343,14 @@ private fun Route.rateLimit() {
         // Example: http://localhost:8080/private
         post("private") {
             val currentCount = decrementWithLimit(startPrivateCount, PRIVATE_LIMIT)
-            call.respondText(welcomeMessage + " (${call.rateLimitInfo(currentCount.toString(), PRIVATE_LIMIT.toString())})")
+            call.respondText(
+                welcomeMessage + " (${
+                    call.rateLimitInfo(
+                        currentCount.toString(),
+                        PRIVATE_LIMIT.toString()
+                    )
+                })"
+            )
         }
     }
 
@@ -341,7 +360,14 @@ private fun Route.rateLimit() {
         // Example: http://localhost:8080/protected?type=admin
         post("protected") {
             val currentCount = decrementWithLimit(startProtectedCount, PROTECTED_LIMIT, REQUEST_WEIGHT)
-            call.respondText(welcomeMessage + " (${call.rateLimitInfo(currentCount.toString(), PROTECTED_LIMIT.toString())})")
+            call.respondText(
+                welcomeMessage + " (${
+                    call.rateLimitInfo(
+                        currentCount.toString(),
+                        PROTECTED_LIMIT.toString()
+                    )
+                })"
+            )
         }
     }
 }
@@ -368,11 +394,12 @@ private fun Route.errorHandling() {
         call.respond(randomStatus)
     }
 }
+
 @Serializable
 data class Thing(
-    val name : String,
-    val category : String,
-    val price : Float
+    val name: String,
+    val category: String,
+    val price: Float
 )
 
 private fun Route.requestValidation() {
@@ -423,18 +450,19 @@ private fun Route.multipartData() {
                     thing.provider().copyAndClose(file.writeChannel())
                 }
 
-                else                 -> {}
+                else -> {}
             }
             thing.dispose
         }
         call.respond("Form fields: $fields")
     }
 }
+
 @Serializable
 private data class Product(
-    val name : String,
-    val category : String,
-    val price : Float,
+    val name: String,
+    val category: String,
+    val price: Float,
 )
 
 private fun Route.productRoutes() {
@@ -491,7 +519,7 @@ private fun Route.messageRoutes() {
     }
 }
 
-private fun getSkills(skills : String) = skills.split(",")
+private fun getSkills(skills: String) = skills.split(",")
 
 private fun Route.profileRoutes() {
     // GET /profile/{profileID}/{skills}
@@ -522,14 +550,15 @@ private fun Route.typeSafeRoutes() {
         call.respondText("Account ($profileID) has been deleted, According to the ($sort) order.")
     }
 }
+
 @Serializable
 @Resource("profiles")
-private class Profiles(val sort : String? = "new") {
+private class Profiles(val sort: String? = "new") {
     @Serializable
     @Resource("{id}")
     data class Profile(
-        val parent : Profiles = Profiles(),
-        val id : String
+        val parent: Profiles = Profiles(),
+        val id: String
     )
 }
 
@@ -548,15 +577,15 @@ private fun Route.dynamicRoutes() {
 }
 
 private data class Account(
-    val id : Int? = null,
-    val username : String? = null,
-    val password : String? = null
+    val id: Int? = null,
+    val username: String? = null,
+    val password: String? = null
 ) {
     companion object {
         fun fromCSV(
-            csv : String,
-            delimiters : String
-        ) : Account {
+            csv: String,
+            delimiters: String
+        ): Account {
             val parts = csv.split(delimiters)
             val id = parts.getOrNull(0)?.toIntOrNull()
             val username = parts.getOrNull(1)
