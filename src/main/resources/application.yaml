@@ -4,3 +4,9 @@ ktor:
       - com.barmajaa.ApplicationKt.module
   deployment:
     port: 8080
+  jwt:
+    secret: "secret"
+    issuer: "http://localhost:8080"
+    audience: "http://localhost:8080"
+    realm: "Access protected routes"
+    expiry: "86400000"

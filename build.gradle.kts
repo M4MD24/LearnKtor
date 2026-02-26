@@ -34,6 +34,7 @@ dependencies {
     implementation("io.ktor:ktor-server-partial-content:3.4.0")
     implementation("io.ktor:ktor-server-auth:3.4.0")
     implementation("io.ktor:ktor-server-sessions:3.4.0")
+    implementation("io.ktor:ktor-server-auth-jwt:3.4.0")
     testImplementation("io.ktor:ktor-server-test-host")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
 }

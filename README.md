@@ -65,7 +65,7 @@
     - Digest
     - Bearer
     - Session
-    - ~~JWT~~
+    - JWT
     - ~~Google OAuth~~
 
 ---

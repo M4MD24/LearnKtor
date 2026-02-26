@@ -1,5 +1,7 @@
 package com.barmajaa.concepts.learn.plugins.routing
 
+import com.barmajaa.concepts.learn.plugins.authentication.jwt.JWTConfig
+import com.barmajaa.concepts.learn.plugins.authentication.jwt.generateToken
 import com.barmajaa.concepts.learn.plugins.rate_limit.PRIVATE_LIMIT
 import com.barmajaa.concepts.learn.plugins.rate_limit.PROTECTED_LIMIT
 import com.barmajaa.concepts.learn.plugins.rate_limit.REQUEST_WEIGHT
@@ -7,6 +9,8 @@ import io.ktor.http.*
 import io.ktor.http.content.*
 import io.ktor.resources.*
 import io.ktor.server.application.*
+import io.ktor.server.auth.*
+import io.ktor.server.auth.jwt.*
 import io.ktor.server.http.content.*
 import io.ktor.server.plugins.ratelimit.*
 import io.ktor.server.request.*
@@ -22,7 +26,7 @@ import java.nio.file.Paths
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.io.path.exists
 
-fun Application.configureRouting() {
+fun Application.configureRouting(jwtConfig: JWTConfig) {
     install(RoutingRoot) {
         // GET /
         // Example: http://localhost:8080/
@@ -74,11 +78,11 @@ fun Application.configureRouting() {
 
         staticRoutes()
 
-        authenticationRoutes()
+        authenticationRoutes(jwtConfig)
     }
 }
 
-private fun Route.authenticationRoutes() {
+private fun Route.authenticationRoutes(jwtConfig: JWTConfig) {
     // GET /basic_authentication
     // Example: http://localhost:8080/basic_authentication with authorization (Basic Auth): username="admin"&password="password"
     // Example: http://localhost:8080/basic_authentication with authorization (Digest Auth): username="user"&password="12345678"
@@ -165,6 +169,57 @@ private fun Route.authenticationRoutes() {
         }
     }
     */
+
+    jwtAuthenticationRoute(jwtConfig)
+}
+
+private fun Route.jwtAuthenticationRoute(
+    jwtConfig: JWTConfig
+) {
+    // POST /sessions_authentication/signup
+    // Example: http://localhost:8080/jwt_authentication/signup with body (raw (JSON)): "{ "username": "user", "password": "12345678" }"
+    // POST /sessions_authentication/login
+    // Example: http://localhost:8080/jwt_authentication/login with body (raw (JSON)): "{ "username": "user", "password": "12345678" }"
+    // GET /jwt_authentication
+    // Example: http://localhost:8080/jwt_authentication with authorization (Bearer Token): Token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjgwODAiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAiLCJ1c2VybmFtZSI6InVzZXIiLCJleHAiOjE3NzIyMDM4NzN9.uQpU5L3cPO7d2kk2777EK_wVti8eqcoWnlX14FfFu-s"
+    // JWT Authentication
+    val userDatabase = mutableMapOf<String, String>()
+    route("jwt_authentication") {
+        post("signup") {
+            val requestData = call.receive<AuthRequest>()
+            if (userDatabase.containsKey(requestData.username))
+                call.respondText("User already exists")
+            else {
+                userDatabase[requestData.username] = requestData.password
+                val token = generateToken(
+                    jwtConfig = jwtConfig,
+                    username = requestData.username
+                )
+                call.respond(mapOf("token" to token))
+            }
+        }
+        post("login") {
+            val requestData = call.receive<AuthRequest>()
+            val storedPassword = userDatabase[requestData.username] ?: return@post call.respondText("User doesn't exists")
+
+            if (storedPassword == requestData.password) {
+                val token = generateToken(
+                    jwtConfig = jwtConfig,
+                    username = requestData.username
+                )
+                call.respond(mapOf("token" to token))
+            } else
+                call.respondText("Invalid credentials")
+        }
+    }
+    authenticate("jwt-authentication") {
+        get("jwt_authentication") {
+            val principal = call.principal<JWTPrincipal>()
+            val username = principal?.payload?.getClaim("username")?.asString()
+            val expiredAt = principal?.expiresAt?.time?.minus(System.currentTimeMillis())
+            call.respondText("Hello $username, the token expires after $expiredAt ms.")
+        }
+    }
 }
 
 @Serializable
