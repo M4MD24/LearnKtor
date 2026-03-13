@@ -68,6 +68,7 @@
     - JWT
     - Open
         - Google
+- Server Sent Events (SSE)
 
 ---
 

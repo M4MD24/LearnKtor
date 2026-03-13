@@ -20,8 +20,11 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.ktor.server.sse.sse
+import io.ktor.sse.ServerSentEvent
 import io.ktor.util.cio.*
 import io.ktor.utils.io.*
+import kotlinx.coroutines.delay
 import kotlinx.serialization.Serializable
 import java.io.File
 import java.nio.file.Path
@@ -88,6 +91,19 @@ fun Application.configureRouting(
             jwtConfig,
             httpClient
         )
+
+        serverSentEventsRoutes()
+    }
+}
+
+private fun Route.serverSentEventsRoutes() {
+    // GET /events
+    // Example: http://localhost:8080/events
+    sse("events") {
+        repeat(8) {
+            send(ServerSentEvent("Event: ${it + 1}"))
+            delay(4000L)
+        }
     }
 }
 

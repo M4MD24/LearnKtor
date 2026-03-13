@@ -11,6 +11,7 @@ import com.barmajaa.concepts.learn.plugins.request_validation.configureRequestVa
 import com.barmajaa.concepts.learn.plugins.resources.configureResources
 import com.barmajaa.concepts.learn.plugins.routing.configureRouting
 import com.barmajaa.concepts.learn.plugins.serialization.configureSerialization
+import com.barmajaa.concepts.learn.plugins.server_sent_events.configureServerSentEvents
 import com.barmajaa.concepts.learn.plugins.status_pages.configureStatusPages
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
@@ -42,6 +43,7 @@ fun Application.module() {
         jwtConfig,
         httpClient
     )
+    configureServerSentEvents()
     configureRouting(
         jwtConfig,
         httpClient
