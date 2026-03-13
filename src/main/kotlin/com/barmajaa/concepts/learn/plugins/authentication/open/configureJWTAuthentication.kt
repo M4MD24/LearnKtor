@@ -1,14 +1,20 @@
-package com.barmajaa.concepts.learn.plugins.authentication.jwt
+package com.barmajaa.concepts.learn.plugins.authentication.open
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
+import com.barmajaa.concepts.learn.plugins.authentication.jwt.JWTConfig
+import com.barmajaa.concepts.learn.plugins.authentication.open.google.configureGoogleOpenAuthentication
+import io.ktor.client.*
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
 import io.ktor.server.response.*
 
-fun Application.configureJWTAuthentication(jwtConfig: JWTConfig) {
+fun Application.configureJWTAuthentication(
+    jwtConfig: JWTConfig,
+    httpClient: HttpClient
+) {
     install(Authentication) {
         jwt("jwt-authentication") {
             realm = jwtConfig.realm
@@ -33,5 +39,6 @@ fun Application.configureJWTAuthentication(jwtConfig: JWTConfig) {
                 )
             }
         }
+        configureGoogleOpenAuthentication(httpClient)
     }
 }

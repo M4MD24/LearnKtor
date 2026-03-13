@@ -1,0 +1,1236 @@
+{
+  "info": {
+    "_postman_id": "7f283e94-81c0-42de-a361-720212a4e70b",
+    "name": "LearnKtor",
+    "description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "51916284",
+    "_collection_link": "https://go.postman.co/collection/51916284-7f283e94-81c0-42de-a361-720212a4e70b?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Routes",
+      "item": [
+        {
+          "name": "DynamicRoutes",
+          "item": [
+            {
+              "name": "/{anything}/test",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/hello/test",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "hello",
+                    "test"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "/api/{v1|v2|v3|v4}",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/api/v4",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "api",
+                    "v4"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "ProfileRoutes",
+          "item": [
+            {
+              "name": "/profile/{profileID}/{skills}",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/profile/123/kotlin,java,ktor",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "profile",
+                    "123",
+                    "kotlin,java,ktor"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "AccountRoutes",
+          "item": [
+            {
+              "name": "Auth",
+              "item": [
+                {
+                  "name": "/accounts/auth/login",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "urlencoded",
+                      "urlencoded": [
+                        {
+                          "key": "username",
+                          "value": "m4md24",
+                          "type": "text",
+                          "uuid": "7a42af33-c27a-431b-84c6-6621ed17c766"
+                        },
+                        {
+                          "key": "password",
+                          "value": "142142",
+                          "type": "text",
+                          "uuid": "af660847-02b9-4930-ba1c-608218623da7"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "{{localhost}}/accounts/auth/login",
+                      "host": [
+                        "{{localhost}}"
+                      ],
+                      "path": [
+                        "accounts",
+                        "auth",
+                        "login"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "/accounts/auth/signup",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "urlencoded",
+                      "urlencoded": [
+                        {
+                          "key": "username",
+                          "value": "m4md24",
+                          "type": "text",
+                          "uuid": "7a42af33-c27a-431b-84c6-6621ed17c766"
+                        },
+                        {
+                          "key": "password",
+                          "value": "142142",
+                          "type": "text",
+                          "uuid": "af660847-02b9-4930-ba1c-608218623da7"
+                        }
+                      ]
+                    },
+                    "url": {
+                      "raw": "{{localhost}}/accounts/auth/signup",
+                      "host": [
+                        "{{localhost}}"
+                      ],
+                      "path": [
+                        "accounts",
+                        "auth",
+                        "signup"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "/accounts",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/accounts",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "accounts"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "/accounts/{id}",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/accounts/142",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "accounts",
+                    "142"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "/accounts/{id},{username},{password}",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/accounts/142,m4md24,142142",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "accounts",
+                    "142,m4md24,142142"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "/accounts/{id}",
+              "request": {
+                "method": "PATCH",
+                "header": [],
+                "body": {
+                  "mode": "urlencoded",
+                  "urlencoded": [
+                    {
+                      "key": "username",
+                      "value": "m4md24",
+                      "type": "text",
+                      "uuid": "0a5b2fab-bb8d-46ce-b301-ae685c3b403e"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{localhost}}/accounts/142",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "accounts",
+                    "142"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "TypeSafeRoutes",
+          "item": [
+            {
+              "name": "/profiles?sort=new",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/profiles?sort=all",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "profiles"
+                  ],
+                  "query": [
+                    {
+                      "key": "sort",
+                      "value": "all"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "/profiles/{id}",
+              "request": {
+                "method": "DELETE",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/profiles/123",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "profiles",
+                    "123"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "MessageRoutes",
+          "item": [
+            {
+              "name": "/great",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "Mohamed",
+                  "options": {
+                    "raw": {
+                      "language": "text"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{localhost}}/great",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "great"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "/channel",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "Hello Android Apps Developers",
+                  "options": {
+                    "raw": {
+                      "language": "text"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{localhost}}/channel",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "channel"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "UploadReoutes",
+          "item": [
+            {
+              "name": "/upload",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "file",
+                  "file": {}
+                },
+                "url": {
+                  "raw": "{{localhost}}/upload",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "upload"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "ProductRoutes",
+          "item": [
+            {
+              "name": "/product",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\":\"M142\",\r\n    \"category\":\"Mobile\",\r\n    \"price\": 999.99\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{localhost}}/product",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "product"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "MultipartData",
+          "item": [
+            {
+              "name": "/things",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "name",
+                      "value": "Mohamed",
+                      "type": "text",
+                      "uuid": "9b239cf9-4dc0-4a73-bff2-40b7d593e517"
+                    },
+                    {
+                      "key": "logo",
+                      "type": "file",
+                      "uuid": "326c411d-ea7c-4f68-8cc0-996aebef0e7b",
+                      "src": "postman-cloud:///1f0fe687-6568-4180-8036-32d5fceef156"
+                    },
+                    {
+                      "key": "job",
+                      "value": "Android Apps Developer",
+                      "type": "text",
+                      "uuid": "def934f8-0267-4bb6-a4b8-eb156f8ca6f4"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{localhost}}/things",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "things"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "StatusPages",
+          "item": [
+            {
+              "name": "ErrorHandling",
+              "item": [
+                {
+                  "name": "/products/pens",
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{localhost}}/products/pens",
+                      "host": [
+                        "{{localhost}}"
+                      ],
+                      "path": [
+                        "products",
+                        "pens"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "/products/pencils",
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{localhost}}/products/pencils",
+                      "host": [
+                        "{{localhost}}"
+                      ],
+                      "path": [
+                        "products",
+                        "pencils"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "/products/rulers",
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{localhost}}/products/rulers",
+                      "host": [
+                        "{{localhost}}"
+                      ],
+                      "path": [
+                        "products",
+                        "rulers"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "RequestValidation",
+          "item": [
+            {
+              "name": "/products/pens",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "",
+                  "options": {
+                    "raw": {
+                      "language": "text"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{localhost}}/products/pens",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "products",
+                    "pens"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "/products/things",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\r\n    \"name\": \"Asus Laptop\",\r\n    \"category\": \"Electronics\",\r\n    \"price\": -1\r\n}",
+                  "options": {
+                    "raw": {
+                      "language": "json"
+                    }
+                  }
+                },
+                "url": {
+                  "raw": "{{localhost}}/products/things",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "products",
+                    "things"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "RateLimit",
+          "item": [
+            {
+              "name": "Protected",
+              "item": [
+                {
+                  "name": "/protected",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "url": {
+                      "raw": "{{localhost}}/protected?type=admin",
+                      "host": [
+                        "{{localhost}}"
+                      ],
+                      "path": [
+                        "protected"
+                      ],
+                      "query": [
+                        {
+                          "key": "type",
+                          "value": "admin"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "/protected?type=admin",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "url": {
+                      "raw": "{{localhost}}/protected?type=admin",
+                      "host": [
+                        "{{localhost}}"
+                      ],
+                      "path": [
+                        "protected"
+                      ],
+                      "query": [
+                        {
+                          "key": "type",
+                          "value": "admin"
+                        }
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "/global",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/global",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "global"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "/private",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/private",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "private"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "SendingResponse",
+          "item": [
+            {
+              "name": "/sending_response",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/sending_response",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "sending_response"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "/products/thing",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/products/things",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "products",
+                    "things"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "/stream{fileName}",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/stream?fileName=video.mp4",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "stream"
+                  ],
+                  "query": [
+                    {
+                      "key": "fileName",
+                      "value": "video.mp4"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "/download{fileName}",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/download?fileName=video.mp4",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "download"
+                  ],
+                  "query": [
+                    {
+                      "key": "fileName",
+                      "value": "video.mp4"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "/fileFromPath{fileName}",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/fileFromPath?fileName=video.mp4",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "fileFromPath"
+                  ],
+                  "query": [
+                    {
+                      "key": "fileName",
+                      "value": "video.mp4"
+                    }
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "StatusRoutes",
+          "item": [
+            {
+              "name": "/status",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/status",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "status"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "/custom_status",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/custom_status",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "custom_status"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "HeadersRoutes",
+          "item": [
+            {
+              "name": "/headers",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/headers",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "headers"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "CookiesRoutes",
+          "item": [
+            {
+              "name": "/cookies",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/cookies",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "cookies"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "RedirectRoutes",
+          "item": [
+            {
+              "name": "/redirect",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/redirect",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "redirect"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "/moved",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/moved",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "moved"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "StaticRoutes",
+          "item": [
+            {
+              "name": "/static",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/static/index",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "static",
+                    "index"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "/uploads/{pathFile}",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/uploads/texts/text.txt",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "uploads",
+                    "texts",
+                    "text.txt"
+                  ]
+                }
+              },
+              "response": []
+            },
+            {
+              "name": "/zip",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{localhost}}/zip/text.txt",
+                  "host": [
+                    "{{localhost}}"
+                  ],
+                  "path": [
+                    "zip",
+                    "text.txt"
+                  ]
+                }
+              },
+              "response": []
+            }
+          ]
+        },
+        {
+          "name": "Authentication",
+          "item": [
+            {
+              "name": "Basic",
+              "item": [
+                {
+                  "name": "/basic_authentication",
+                  "request": {
+                    "auth": {
+                      "type": "basic",
+                      "basic": [
+                        {
+                          "key": "username",
+                          "value": "admin",
+                          "type": "string"
+                        },
+                        {
+                          "key": "password",
+                          "value": "password",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{localhost}}/basic_authentication",
+                      "host": [
+                        "{{localhost}}"
+                      ],
+                      "path": [
+                        "basic_authentication"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "Digest",
+              "item": [
+                {
+                  "name": "/digest_authentication",
+                  "request": {
+                    "auth": {
+                      "type": "digest",
+                      "digest": [
+                        {
+                          "key": "username",
+                          "value": "user",
+                          "type": "string"
+                        },
+                        {
+                          "key": "password",
+                          "value": "12345678",
+                          "type": "string"
+                        },
+                        {
+                          "key": "nonce",
+                          "value": "33da332f0aebf1c0",
+                          "type": "string"
+                        },
+                        {
+                          "key": "realm",
+                          "value": "Access protected routes",
+                          "type": "string"
+                        },
+                        {
+                          "key": "disableRetryRequest",
+                          "value": false,
+                          "type": "boolean"
+                        },
+                        {
+                          "key": "algorithm",
+                          "value": "MD5",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{localhost}}/digest_authentication",
+                      "host": [
+                        "{{localhost}}"
+                      ],
+                      "path": [
+                        "digest_authentication"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "Bearer",
+              "item": [
+                {
+                  "name": "/bearer_authentication",
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "token1",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{localhost}}/bearer_authentication",
+                      "host": [
+                        "{{localhost}}"
+                      ],
+                      "path": [
+                        "bearer_authentication"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "Sessions",
+              "item": [
+                {
+                  "name": "/sessions_authentication",
+                  "protocolProfileBehavior": {
+                    "disableBodyPruning": true
+                  },
+                  "request": {
+                    "method": "GET",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"username\": \"admin\",\r\n    \"password\": \"12345678\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{localhost}}/sessions_authentication",
+                      "host": [
+                        "{{localhost}}"
+                      ],
+                      "path": [
+                        "sessions_authentication"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "JWT",
+              "item": [
+                {
+                  "name": "/jwt_authentication",
+                  "request": {
+                    "method": "POST",
+                    "header": [],
+                    "body": {
+                      "mode": "raw",
+                      "raw": "{\r\n    \"username\": \"user\",\r\n    \"password\": \"12345678\"\r\n}",
+                      "options": {
+                        "raw": {
+                          "language": "json"
+                        }
+                      }
+                    },
+                    "url": {
+                      "raw": "{{localhost}}/jwt_authentication/login",
+                      "host": [
+                        "{{localhost}}"
+                      ],
+                      "path": [
+                        "jwt_authentication",
+                        "login"
+                      ]
+                    }
+                  },
+                  "response": []
+                },
+                {
+                  "name": "/jwt_authentication Copy",
+                  "request": {
+                    "auth": {
+                      "type": "bearer",
+                      "bearer": [
+                        {
+                          "key": "token",
+                          "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjgwODAiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAiLCJ1c2VybmFtZSI6InVzZXIiLCJleHAiOjE3NzIyMDM4NzN9.uQpU5L3cPO7d2kk2777EK_wVti8eqcoWnlX14FfFu-s",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "method": "GET",
+                    "header": [],
+                    "url": {
+                      "raw": "{{localhost}}/jwt_authentication",
+                      "host": [
+                        "{{localhost}}"
+                      ],
+                      "path": [
+                        "jwt_authentication"
+                      ]
+                    }
+                  },
+                  "response": []
+                }
+              ]
+            },
+            {
+              "name": "Open",
+              "item": [
+                {
+                  "name": "Google",
+                  "item": [
+                    {
+                      "name": "Login",
+                      "request": {
+                        "auth": {
+                          "type": "bearer",
+                          "bearer": [
+                            {
+                              "key": "token",
+                              "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjgwODAiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAiLCJ1c2VybmFtZSI6IjE3MDNiNTIzLTEwNDQtNGQwMy04Njg2LTRkMjA1OTgyMDcwNiIsImV4cCI6MTc3MzQ3MDk1OX0.zQZwhTVQkMW1uaDVhGWxFU1NLaQUxHDoQ47JuX468M0",
+                              "type": "string"
+                            }
+                          ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                          "raw": "http://localhost:8080/jwt_authentication/login",
+                          "protocol": "http",
+                          "host": [
+                            "localhost"
+                          ],
+                          "port": "8080",
+                          "path": [
+                            "jwt_authentication",
+                            "login"
+                          ]
+                        }
+                      },
+                      "response": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "/",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{localhost}}/",
+              "host": [
+                "{{localhost}}"
+              ],
+              "path": [
+                ""
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}

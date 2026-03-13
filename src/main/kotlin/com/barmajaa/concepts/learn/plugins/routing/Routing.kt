@@ -2,9 +2,12 @@ package com.barmajaa.concepts.learn.plugins.routing
 
 import com.barmajaa.concepts.learn.plugins.authentication.jwt.JWTConfig
 import com.barmajaa.concepts.learn.plugins.authentication.jwt.generateToken
+import com.barmajaa.concepts.learn.plugins.authentication.open.google.UserInfo
+import com.barmajaa.concepts.learn.plugins.authentication.open.google.fetchGoogleUserInfo
 import com.barmajaa.concepts.learn.plugins.rate_limit.PRIVATE_LIMIT
 import com.barmajaa.concepts.learn.plugins.rate_limit.PROTECTED_LIMIT
 import com.barmajaa.concepts.learn.plugins.rate_limit.REQUEST_WEIGHT
+import io.ktor.client.HttpClient
 import io.ktor.http.*
 import io.ktor.http.content.*
 import io.ktor.resources.*
@@ -26,7 +29,10 @@ import java.nio.file.Paths
 import java.util.concurrent.atomic.AtomicInteger
 import kotlin.io.path.exists
 
-fun Application.configureRouting(jwtConfig: JWTConfig) {
+fun Application.configureRouting(
+    jwtConfig: JWTConfig,
+    httpClient: HttpClient
+) {
     install(RoutingRoot) {
         // GET /
         // Example: http://localhost:8080/
@@ -78,11 +84,17 @@ fun Application.configureRouting(jwtConfig: JWTConfig) {
 
         staticRoutes()
 
-        authenticationRoutes(jwtConfig)
+        authenticationRoutes(
+            jwtConfig,
+            httpClient
+        )
     }
 }
 
-private fun Route.authenticationRoutes(jwtConfig: JWTConfig) {
+private fun Route.authenticationRoutes(
+    jwtConfig: JWTConfig,
+    httpClient: HttpClient
+) {
     // GET /basic_authentication
     // Example: http://localhost:8080/basic_authentication with authorization (Basic Auth): username="admin"&password="password"
     // Example: http://localhost:8080/basic_authentication with authorization (Digest Auth): username="user"&password="12345678"
@@ -170,7 +182,62 @@ private fun Route.authenticationRoutes(jwtConfig: JWTConfig) {
     }
     */
 
-    jwtAuthenticationRoute(jwtConfig)
+    // jwtAuthenticationRoute(jwtConfig)
+
+    googleOpenAuthenticationRoute(
+        jwtConfig,
+        httpClient
+    )
+}
+
+private fun Route.googleOpenAuthenticationRoute(
+    jwtConfig: JWTConfig,
+    httpClient: HttpClient
+) {
+    // http://localhost:8080/google_open_authentication in Browser
+    // GET /jwt_authentication/login
+    // Example: http://localhost:8080/jwt_authentication/login with authorization (Bearer Token): Token="?"
+    // Google Open Authentication
+    val userDatabase = mutableMapOf<String, UserInfo>()
+    route("google_open_authentication") {
+        authenticate("google-open-authentication") {
+            get {
+                call.respondText("Login by Google...")
+            }
+            get("callback") {
+                val principal: OAuthAccessTokenResponse.OAuth2? = call.principal()
+                if (principal == null) {
+                    call.respondText(
+                        "OpenAuthentication Failed",
+                        status = HttpStatusCode.Unauthorized
+                    )
+                    return@get
+                }
+                val accessToken = principal.accessToken
+                val userInfo = fetchGoogleUserInfo(
+                    httpClient = httpClient,
+                    accessToken = accessToken
+                )
+                if (userInfo != null) {
+                    userDatabase[userInfo.userID] = userInfo
+                    val token = generateToken(
+                        jwtConfig,
+                        username = userInfo.userID
+                    )
+                    call.respond(mapOf("token" to token))
+                } else
+                    call.respond(HttpStatusCode.InternalServerError)
+            }
+        }
+    }
+    authenticate("jwt-authentication") {
+        get("jwt_authentication/login") {
+            val principal = call.principal<JWTPrincipal>()
+            val username = principal?.payload?.getClaim("username")?.asString()
+            val userInfo = userDatabase[username] ?: mapOf("error" to true)
+            call.respond(userInfo)
+        }
+    }
 }
 
 private fun Route.jwtAuthenticationRoute(
@@ -181,7 +248,7 @@ private fun Route.jwtAuthenticationRoute(
     // POST /sessions_authentication/login
     // Example: http://localhost:8080/jwt_authentication/login with body (raw (JSON)): "{ "username": "user", "password": "12345678" }"
     // GET /jwt_authentication
-    // Example: http://localhost:8080/jwt_authentication with authorization (Bearer Token): Token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJodHRwOi8vbG9jYWxob3N0OjgwODAiLCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwODAiLCJ1c2VybmFtZSI6InVzZXIiLCJleHAiOjE3NzIyMDM4NzN9.uQpU5L3cPO7d2kk2777EK_wVti8eqcoWnlX14FfFu-s"
+    // Example: http://localhost:8080/jwt_authentication with authorization (Bearer Token): Token="?"
     // JWT Authentication
     val userDatabase = mutableMapOf<String, String>()
     route("jwt_authentication") {

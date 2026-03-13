@@ -66,7 +66,8 @@
     - Bearer
     - Session
     - JWT
-    - ~~Google OAuth~~
+    - Open
+        - Google
 
 ---
 
