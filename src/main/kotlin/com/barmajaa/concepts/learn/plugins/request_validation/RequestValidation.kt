@@ -1,6 +1,6 @@
 package com.barmajaa.concepts.learn.plugins.request_validation
 
-import com.barmajaa.concepts.learn.plugins.rounting.Thing
+import com.barmajaa.concepts.learn.plugins.routing.Thing
 import io.ktor.server.application.*
 import io.ktor.server.plugins.requestvalidation.*
 
