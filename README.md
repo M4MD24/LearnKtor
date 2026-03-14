@@ -70,6 +70,7 @@
         - Google
 - Server Sent Events (SSE)
 - WebSockets
+- ShutDown URL
 
 ---
 

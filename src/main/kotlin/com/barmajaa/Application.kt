@@ -12,6 +12,7 @@ import com.barmajaa.concepts.learn.plugins.resources.configureResources
 import com.barmajaa.concepts.learn.plugins.routing.configureRouting
 import com.barmajaa.concepts.learn.plugins.serialization.configureSerialization
 import com.barmajaa.concepts.learn.plugins.server_sent_events.configureServerSentEvents
+import com.barmajaa.concepts.learn.plugins.shut_down_url.configureShutDownURL
 import com.barmajaa.concepts.learn.plugins.status_pages.configureStatusPages
 import com.barmajaa.concepts.learn.plugins.web_sockets.configureWebSockets
 import io.ktor.client.*
@@ -46,6 +47,7 @@ fun Application.module() {
     )
     configureServerSentEvents()
     configureWebSockets()
+    configureShutDownURL()
     configureRouting(
         jwtConfig,
         httpClient
