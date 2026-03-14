@@ -7,7 +7,7 @@ import com.barmajaa.concepts.learn.plugins.authentication.open.google.fetchGoogl
 import com.barmajaa.concepts.learn.plugins.rate_limit.PRIVATE_LIMIT
 import com.barmajaa.concepts.learn.plugins.rate_limit.PROTECTED_LIMIT
 import com.barmajaa.concepts.learn.plugins.rate_limit.REQUEST_WEIGHT
-import io.ktor.client.HttpClient
+import io.ktor.client.*
 import io.ktor.http.*
 import io.ktor.http.content.*
 import io.ktor.resources.*
@@ -20,12 +20,17 @@ import io.ktor.server.request.*
 import io.ktor.server.resources.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import io.ktor.server.sse.sse
-import io.ktor.sse.ServerSentEvent
+import io.ktor.server.sse.*
+import io.ktor.server.websocket.*
+import io.ktor.sse.*
 import io.ktor.util.cio.*
+import io.ktor.util.collections.*
 import io.ktor.utils.io.*
+import io.ktor.websocket.*
+import kotlinx.coroutines.channels.consumeEach
 import kotlinx.coroutines.delay
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.Json
 import java.io.File
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -93,6 +98,49 @@ fun Application.configureRouting(
         )
 
         serverSentEventsRoutes()
+
+        webSocketsRoutes()
+    }
+}
+
+@Serializable
+data class Message(
+    val text: String,
+    val to: String? = null
+)
+
+private fun Route.webSocketsRoutes() {
+    val onlineUsers = ConcurrentMap<String, WebSocketSession>()
+    webSocket("chat") {
+        val username = call.request.queryParameters["username"] ?: run {
+            this.close(
+                CloseReason(
+                    CloseReason.Codes.CANNOT_ACCEPT,
+                    "username is required for establishing connection"
+                )
+            )
+            return@webSocket
+        }
+        onlineUsers[username] = this
+        send("You are connected!")
+        try {
+            incoming.consumeEach { frame ->
+                if (frame is Frame.Text) {
+                    val message = Json.decodeFromString<Message>(frame.readText())
+                    if (message.to.isNullOrBlank())
+                        onlineUsers.values.forEach {
+                            it.send("$username: ${message.text}")
+                        }
+                    else {
+                        val session = onlineUsers[message.to]
+                        session?.send("$username: ${message.text}")
+                    }
+                }
+            }
+        } finally {
+            onlineUsers.remove(username)
+            this.close()
+        }
     }
 }
 

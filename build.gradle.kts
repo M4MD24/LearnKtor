@@ -39,6 +39,7 @@ dependencies {
     implementation("io.ktor:ktor-client-content-negotiation:3.4.0")
     implementation("io.ktor:ktor-server-auth-jwt:3.4.0")
     implementation("io.ktor:ktor-server-sse:3.4.0")
+    implementation("io.ktor:ktor-server-websockets:3.4.0")
     testImplementation("io.ktor:ktor-server-test-host")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
 }

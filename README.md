@@ -69,6 +69,7 @@
     - Open
         - Google
 - Server Sent Events (SSE)
+- WebSockets
 
 ---
 
