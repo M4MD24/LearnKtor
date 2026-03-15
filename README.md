@@ -72,6 +72,7 @@
 - WebSockets
 - ShutDown URL
 - Call Logging
+- Custom Plugin
 
 ---
 

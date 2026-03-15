@@ -6,6 +6,7 @@ import com.barmajaa.concepts.learn.plugins.authentication.sessions.configureSess
 import com.barmajaa.concepts.learn.plugins.authentication.sessions.configureSessionsAuthentication
 import com.barmajaa.concepts.learn.plugins.auto_head_response.configureAutoHeadResponse
 import com.barmajaa.concepts.learn.plugins.call_logging.configureCallLogging
+import com.barmajaa.concepts.learn.plugins.custom_plugin.configureCustomPlugin
 import com.barmajaa.concepts.learn.plugins.partial_content.configurePartialContent
 import com.barmajaa.concepts.learn.plugins.rate_limit.configureRateLimiting
 import com.barmajaa.concepts.learn.plugins.request_validation.configureRequestValidation
@@ -36,6 +37,7 @@ fun Application.module() {
         }
     }
     configureCallLogging()
+    configureCustomPlugin()
     configureResources()
     configureSerialization()
     configureStatusPages()
