@@ -73,6 +73,8 @@
 - ShutDown URL
 - Call Logging
 - Custom Plugin
+- Databases
+    - PostgreSQL with Exposed
 
 ---
 
@@ -87,6 +89,7 @@
 <ul>
 <li><a style="color: #FF1493;" href="https://kotlinlang.org/docs/home.html">Kotlin Documentation</a></li>
 <li><a style="color: #FF1493;" href="https://ktor.io/docs">Ktor Documentation</a></li>
+<li><a style="color: #FF1493;" href="https://www.jetbrains.com/help/exposed/home.html">Exposed Documentation</a></li>
 <li><a style="color: #FF1493;" href="https://www.youtube.com">Youtube</a></li>
 <ul>
 <li><a style="color: #FF1493;" href="https://www.youtube.com/@akashkamati">Akash Kamati</a></li>

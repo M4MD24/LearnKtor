@@ -8,6 +8,8 @@ import com.barmajaa.concepts.learn.plugins.auto_head_response.configureAutoHeadR
 import com.barmajaa.concepts.learn.plugins.call_logging.configureCallLogging
 import com.barmajaa.concepts.learn.plugins.custom_plugin.configureCustomPlugin
 import com.barmajaa.concepts.learn.plugins.partial_content.configurePartialContent
+import com.barmajaa.concepts.learn.plugins.postgresql.data.DatabaseFactory
+import com.barmajaa.concepts.learn.plugins.postgresql.data.UserDataSource
 import com.barmajaa.concepts.learn.plugins.rate_limit.configureRateLimiting
 import com.barmajaa.concepts.learn.plugins.request_validation.configureRequestValidation
 import com.barmajaa.concepts.learn.plugins.resources.configureResources
@@ -29,6 +31,7 @@ fun main(args: Array<String>) = main(args)
 
 fun Application.module() {
     val jwtConfig = getJWTConfig()
+
     val httpClient = HttpClient(CIO) {
         install(ContentNegotiation) {
             json(Json {
@@ -36,6 +39,11 @@ fun Application.module() {
             })
         }
     }
+
+    val databaseFactory = DatabaseFactory()
+    /* databaseFactory.database */
+    val userDataSource = UserDataSource(databaseFactory.database)
+
     configureCallLogging()
     configureCustomPlugin()
     configureResources()
