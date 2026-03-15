@@ -100,6 +100,11 @@ fun Application.configureRouting(
         serverSentEventsRoutes()
 
         webSocketsRoutes()
+
+        get("hello") {
+            val userId = call.request.queryParameters["userId"] ?: "Unknown"
+            call.respondText("Hello $userId")
+        }
     }
 }
 

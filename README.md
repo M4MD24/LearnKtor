@@ -71,6 +71,7 @@
 - Server Sent Events (SSE)
 - WebSockets
 - ShutDown URL
+- Call Logging
 
 ---
 
