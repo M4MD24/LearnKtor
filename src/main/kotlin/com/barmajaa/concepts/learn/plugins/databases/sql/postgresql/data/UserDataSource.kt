@@ -1,4 +1,4 @@
-package com.barmajaa.concepts.learn.plugins.postgresql.data
+package com.barmajaa.concepts.learn.plugins.databases.sql.postgresql.data
 
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
