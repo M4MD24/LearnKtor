@@ -8,8 +8,7 @@ import com.barmajaa.concepts.learn.plugins.auto_head_response.configureAutoHeadR
 import com.barmajaa.concepts.learn.plugins.call_logging.configureCallLogging
 import com.barmajaa.concepts.learn.plugins.custom_plugin.configureCustomPlugin
 import com.barmajaa.concepts.learn.plugins.partial_content.configurePartialContent
-import com.barmajaa.concepts.learn.plugins.databases.sql.postgresql.data.DatabaseFactory
-import com.barmajaa.concepts.learn.plugins.databases.sql.postgresql.data.UserDataSource
+import com.barmajaa.concepts.learn.plugins.databases.nosql.mongodb.data.UsersDataSource
 import com.barmajaa.concepts.learn.plugins.rate_limit.configureRateLimiting
 import com.barmajaa.concepts.learn.plugins.request_validation.configureRequestValidation
 import com.barmajaa.concepts.learn.plugins.resources.configureResources
@@ -40,9 +39,15 @@ fun Application.module() {
         }
     }
 
+    // Postgresql
+    /*
     val databaseFactory = DatabaseFactory()
     /* databaseFactory.database */
     val userDataSource = UserDataSource(databaseFactory.database)
+    */
+
+    // MongoDB
+    val usersDataSource = UsersDataSource()
 
     configureCallLogging()
     configureCustomPlugin()
@@ -62,7 +67,8 @@ fun Application.module() {
     configureShutDownURL()
     configureRouting(
         jwtConfig,
-        httpClient
+        httpClient,
+        usersDataSource
     )
 }
 

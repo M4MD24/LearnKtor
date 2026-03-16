@@ -48,6 +48,11 @@ dependencies {
     implementation("com.zaxxer:HikariCP:5.0.1")
     implementation("org.jetbrains.exposed:exposed-kotlin-datetime:0.61.0")
     implementation("org.jetbrains.exposed:exposed-json:0.61.0")
+    implementation("org.mongodb:mongodb-driver-core:4.10.2")
+    implementation("org.mongodb:mongodb-driver-sync:4.10.2")
+    implementation("org.mongodb:mongodb-driver-kotlin-coroutine:4.10.2")
+    implementation("org.mongodb:bson:4.10.2")
+    implementation("org.mongodb:bson-kotlinx:4.10.2")
     testImplementation("io.ktor:ktor-server-test-host")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:$kotlin_version")
 }

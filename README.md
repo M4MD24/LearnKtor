@@ -74,7 +74,10 @@
 - Call Logging
 - Custom Plugin
 - Databases
-    - PostgreSQL with Exposed
+    - SQL
+        - PostgreSQL with Exposed
+    - NoSQL
+        - MongoDB
 
 ---
 
