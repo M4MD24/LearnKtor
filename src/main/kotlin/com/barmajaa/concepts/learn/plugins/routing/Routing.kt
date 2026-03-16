@@ -4,6 +4,8 @@ import com.barmajaa.concepts.learn.plugins.authentication.jwt.JWTConfig
 import com.barmajaa.concepts.learn.plugins.authentication.jwt.generateToken
 import com.barmajaa.concepts.learn.plugins.authentication.open.google.UserInfo
 import com.barmajaa.concepts.learn.plugins.authentication.open.google.fetchGoogleUserInfo
+import com.barmajaa.concepts.learn.plugins.databases.nosql.mongodb.data.UsersDataSource
+import com.barmajaa.concepts.learn.plugins.databases.nosql.mongodb.data.UserEntity
 import com.barmajaa.concepts.learn.plugins.rate_limit.PRIVATE_LIMIT
 import com.barmajaa.concepts.learn.plugins.rate_limit.PROTECTED_LIMIT
 import com.barmajaa.concepts.learn.plugins.rate_limit.REQUEST_WEIGHT
@@ -39,7 +41,8 @@ import kotlin.io.path.exists
 
 fun Application.configureRouting(
     jwtConfig: JWTConfig,
-    httpClient: HttpClient
+    httpClient: HttpClient,
+    usersDataSource: UsersDataSource
 ) {
     install(RoutingRoot) {
         // GET /
@@ -104,6 +107,45 @@ fun Application.configureRouting(
         get("hello") {
             val userId = call.request.queryParameters["userId"] ?: "Unknown"
             call.respondText("Hello $userId")
+        }
+
+        mongoDbRoutes(usersDataSource)
+    }
+}
+
+@Serializable
+data class User(
+    val id: String? = null,
+    val name: String,
+    val email: String,
+    val profession: String,
+    val age: Int,
+    val country: String
+) {
+    fun toUserEntity(): UserEntity {
+        return UserEntity(
+            name = name,
+            email = email,
+            profession = profession,
+            age = age,
+            country = country
+        )
+    }
+}
+
+private fun Route.mongoDbRoutes(usersDataSource: UsersDataSource) {
+    route("mongodb") {
+        post("user") {
+            val user = call.receive<User>()
+            val entity = user.toUserEntity()
+            val result = usersDataSource.insertOneUser(entity)
+            call.respond(mapOf("Success" to result))
+        }
+        post("users") {
+            val users = call.receive<List<User>>()
+            val entities = users.map { it.toUserEntity() }
+            val result = usersDataSource.insertMultipleUsers(entities)
+            call.respond(mapOf("Success" to result))
         }
     }
 }
